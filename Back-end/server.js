@@ -18,7 +18,55 @@ const Discount = require('./discountModel');
 require('dotenv').config();
 
 const app = express();
-console.log("Hello Deploy 🚀");
+
+const User = require("./userModel");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
+app.use(express.json());
+
+// ثبت‌نام کاربر جدید
+app.post("/api/register", async (req, res) => {
+  try {
+    const { username, email, password } = req.body;
+
+    // چک تکراری نبودن ایمیل
+    const existing = await User.findOne({ email });
+    if (existing) {
+      return res.status(400).json({ error: "ایمیل تکراری است" });
+    }
+
+    // رمز عبور هش شده
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = new User({ username, email, password: hashedPassword });
+    await newUser.save();
+
+    res.json({ message: "ثبت‌نام موفقیت‌آمیز بود ✅" });
+  } catch (err) {
+    res.status(500).json({ error: "مشکل در ثبت‌نام" });
+  }
+});
+
+// ورود کاربر
+app.post("/api/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ error: "کاربر پیدا نشد" });
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) return res.status(401).json({ error: "رمز اشتباه است" });
+
+    // ساخت توکن JWT
+    const token = jwt.sign({ id: user._id }, "secret123", { expiresIn: "1d" });
+
+    res.json({ message: "ورود موفقیت‌آمیز ✅", token });
+  } catch (err) {
+    res.status(500).json({ error: "مشکل در ورود" });
+  }
+});
 
 // صفحه اصلی سایت
 app.get("/", (req, res) => {
