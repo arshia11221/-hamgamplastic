@@ -19,10 +19,6 @@ require('dotenv').config();
 
 const app = express();
 
-const User = require("./userModel");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-
 app.use(express.json());
 
 // ثبت‌نام کاربر جدید
