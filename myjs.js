@@ -130,7 +130,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         const body = isRegister 
                             ? { username: usernameInput.value, email: emailInput.value, password: passwordInput.value } 
-                            : { username: usernameInput.value, password: passwordInput.value };
+                            : (emailInput && emailInput.value
+                                ? { email: emailInput.value, password: passwordInput.value }
+                                : { username: usernameInput.value, password: passwordInput.value });
 
                         try {
                             const response = await fetch(`${url}`, {

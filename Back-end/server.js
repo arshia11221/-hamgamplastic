@@ -74,6 +74,11 @@ app.get("/api", (req, res) => {
   res.json({ message: "✅ API کار میکنه" });
 });
 
+// Health Check Endpoint
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', message: 'Hamgam backend is running ✅' });
+});
+
 // =========================================================================
 // Middlewares (لایه‌های میانی)
 // =========================================================================
@@ -89,7 +94,7 @@ app.use(
 );
 
 const corsOptions = {
-  origin: 'http://127.0.0.1:5500', // آدرس Live Server
+  origin: '*',
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
