@@ -181,60 +181,91 @@ app.get('/', (req, res) => {
 // =========================================================================
 
 // --- بخش احراز هویت (ورود و ثبت‌نام) ---
-const registerValidationSchema = Joi.object({ username: Joi.string().min(3).max(30).required(), email: Joi.string().min(6).required().email(), password: Joi.string().min(6).required() });
-const loginValidationSchema = Joi.object({ username: Joi.string().min(3).required(), password: Joi.string().min(6).required() });
-
-app.post('/api/register', async (req, res, next) => {
-    console.log("Received /api/register request with body:", req.body);
-    try {
-        const { error } = registerValidationSchema.validate(req.body);
-        if (error) return res.status(400).send({ message: error.details[0].message });
-        const userExists = await User.findOne({ $or: [{ email: req.body.email }, { username: req.body.username }], });
-        if (userExists) return res.status(400).send({ message: 'نام کاربری یا ایمیل قبلا ثبت شده است' });
-        const hashedPassword = await bcrypt.hash(req.body.password, 10);
-        const user = new User({ username: req.body.username, email: req.body.email, password: hashedPassword, });
-        await user.save();
-        console.log("User registered successfully:", user.username);
-        res.status(201).send({ message: 'کاربر با موفقیت ایجاد شد' });
-    } catch (error) {
-        console.error("Error in /api/register:", error.message);
-        next(error);
-    }
+const registerValidationSchema = Joi.object({
+  username: Joi.string().min(3).max(30).required(),
+  email: Joi.string().min(6).required().email(),
+  password: Joi.string().min(6).required()
 });
 
-app.post("/api/login", async (req, res) => {
-  const { username, email, password } = req.body;
+const loginValidationSchema = Joi.object({
+  email: Joi.string().min(6).required().email(),
+  password: Joi.string().min(6).required()
+});
 
+// ثبت‌نام کاربر جدید
+app.post('/api/register', async (req, res, next) => {
+  console.log("Received /api/register request with body:", req.body);
   try {
-    const user = await User.findOne({
-      $or: [{ username }, { email }]
+    const { error } = registerValidationSchema.validate(req.body);
+    if (error) return res.status(400).send({ message: error.details[0].message });
+
+    const userExists = await User.findOne({
+      $or: [{ email: req.body.email }, { username: req.body.username }]
     });
+    if (userExists)
+      return res.status(400).send({ message: 'نام کاربری یا ایمیل قبلا ثبت شده است' });
+
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const user = new User({
+      username: req.body.username,
+      email: req.body.email,
+      password: hashedPassword
+    });
+    await user.save();
+
+    console.log("User registered successfully:", user.username);
+    res.status(201).send({ message: 'کاربر با موفقیت ایجاد شد' });
+  } catch (error) {
+    console.error("Error in /api/register:", error.message);
+    next(error);
+  }
+});
+
+// ورود کاربر
+app.post("/api/login", async (req, res) => {
+  try {
+    const { error } = loginValidationSchema.validate(req.body);
+    if (error) return res.status(400).send({ message: error.details[0].message });
+
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(400).json({ error: "کاربر پیدا نشد" });
+      return res.status(404).json({ error: "کاربر پیدا نشد" });
     }
 
-    if (user.password !== password) {
-      return res.status(400).json({ error: "رمز اشتباه است" });
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: "رمز اشتباه است" });
     }
 
-    res.json({ message: "ورود موفقیت‌آمیز بود ✅" });
+    // ساخت JWT
+    const token = jwt.sign({ _id: user._id, username: user.username }, process.env.JWT_SECRET, {
+      expiresIn: "1d"
+    });
+
+    res.json({
+      message: "ورود موفقیت‌آمیز بود ✅",
+      token,
+      user: { id: user._id, username: user.username, email: user.email }
+    });
   } catch (err) {
+    console.error("Error in /api/login:", err.message);
     res.status(500).json({ error: "خطا در سرور" });
   }
 });
 
 // --- مسیرهای محافظت‌شده برای کاربران ---
 app.get('/api/my-orders', authMiddleware, async (req, res, next) => {
-    console.log("Received /api/my-orders request for user:", req.user && req.user.username);
-    try {
-        const orders = await Order.find({ user: req.user._id }).sort({ createdAt: -1 });
-        console.log(`/api/my-orders responded with ${orders.length} orders for user:`, req.user && req.user.username);
-        res.json(orders);
-    } catch (error) {
-        console.error("Error in /api/my-orders:", error.message);
-        next(error);
-    }
+  console.log("Received /api/my-orders request for user:", req.user && req.user.username);
+  try {
+    const orders = await Order.find({ user: req.user._id }).sort({ createdAt: -1 });
+    console.log(`/api/my-orders responded with ${orders.length} orders for user:`, req.user && req.user.username);
+    res.json(orders);
+  } catch (error) {
+    console.error("Error in /api/my-orders:", error.message);
+    next(error);
+  }
 });
 
 // --- بخش کد تخفیف ---
