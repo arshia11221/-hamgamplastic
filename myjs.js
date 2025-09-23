@@ -455,7 +455,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const totalAmount = subtotal > 0 ? subtotal + App.config.shippingCost : 0;
                     
                     try {
-                        const response = await fetch(`/api/create-order`, {
+                        const response = await fetch(App.config.backendUrl + `/api/create-order`, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ shippingInfo, products: cartData, amount: totalAmount })
@@ -559,7 +559,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
 
                         // Step 2: Request payment URL from server
-                        const requestPaymentResponse = await fetch(`/api/request-payment`, {
+                        const requestPaymentResponse = await fetch(App.config.backendUrl + `/api/request-payment`, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ orderId })
@@ -622,14 +622,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
             
                     try {
-                        const response = await fetch(`/api/verify-payment`, {
+                        const response = await fetch(App.config.backendUrl + `/api/verify-payment`, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ authority, orderId })
                         });
                         
                         const data = await response.json();
-            
+
                         if (response.ok && data.success) {
                             App.cart.clear();
                             resultDiv.innerHTML = `
@@ -673,7 +673,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
 
-                fetch(`/api/orders/${orderDbId}`)
+                fetch(App.config.backendUrl + `/api/orders/${orderDbId}`)
                     .then(res => {
                         if (!res.ok) {
                             return res.json().then(err => { throw new Error(err.message || 'سفارش یافت نشد.') });
@@ -732,7 +732,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 container.classList.add('loading');
-                fetch(`/api/my-orders`, {
+                fetch(App.config.backendUrl + `/api/my-orders`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 })
                 .then(res => {
@@ -820,7 +820,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             modal.classList.add('open');
                             modal.innerHTML = `<div class="modal-content"><div class="modal-loading">در حال بارگذاری فاکتور...</div></div>`;
                             try {
-                                const res = await fetch(`/api/orders/${orderId}`, {
+                                const res = await fetch(App.config.backendUrl + `/api/orders/${orderId}`, {
                                     headers: { 'Authorization': `Bearer ${token}` }
                                 });
                                 if (!res.ok) {
