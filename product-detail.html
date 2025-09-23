@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>جزئیات محصول - همگام پلاستیک</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="product-detail-page">
+
+  <!-- Header remains the same -->
+  <header class="main-header" role="banner">
+    <nav aria-label="ناوبری اصلی">
+      <div class="nav-right-group">
+        <a href="index.html" class="logo"><img src="image/IMG_9482-removebg-preview.png" alt="لوگو شرکت"></a>
+        <ul id="primary-menu" class="primary-menu">
+          <li><a href="index.html">صفحه اصلی</a></li>
+          <li><a href="products.html" class="active">محصولات</a></li>
+          <li><a href="#">گالری</a></li>
+          <li><a href="index.html#news">اخبار و مقالات</a></li>
+          <li><a href="index.html#about">درباره ما</a></li>
+          <li><a href="index.html#contact">تماس با ما</a></li>
+        </ul>
+      </div>
+      <div class="header-actions">
+        <a href="cart.html" class="header-icon" aria-label="سبد خرید"><i class="fas fa-shopping-cart"></i></a>
+        <a href="#" class="header-icon" aria-label="جستجو"><i class="fas fa-search"></i></a>
+        <div id="user-display"><a href="login.html" class="login-link">ورود</a></div>
+        <div class="header-phone"><i class="fas fa-phone-alt"></i><span>۰۹۱۱۳۱۴۹۴۰۴</span></div>
+        <button id="mobile-toggle" class="nav-toggle" aria-controls="primary-menu" aria-expanded="false">
+          <span class="sr-only">باز کردن منو</span><i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <div class="product-detail-section container">
+      <div class="product-detail-layout-new">
+        
+        <!-- Product Image Section (Simplified) -->
+        <div class="product-gallery-new">
+          <div class="main-image-container-new">
+            <img id="main-product-image" src="https://placehold.co/600x600/f0f0f0/ccc?text=Loading..." alt="تصویر اصلی محصول" />
+          </div>
+        </div>
+        
+        <!-- Product Info Section (Redesigned) -->
+        <div class="product-info-details-sticky">
+          <div class="product-breadcrumbs">
+            <a href="index.html">خانه</a> <i class="fas fa-angle-left"></i>
+            <a href="products.html">محصولات</a> <i class="fas fa-angle-left"></i>
+            <span id="product-category">دسته بندی</span>
+          </div>
+          
+          <h1 id="product-name" class="product-title-detail-new">نام محصول در حال بارگذاری...</h1>
+          
+          <div class="product-meta">
+            <span>کد محصول: <span id="product-sku">HP-1025</span></span>
+            <span class="stock-status in-stock"><i class="fas fa-check-circle"></i> موجود در انبار</span>
+          </div>
+
+          <p class="product-short-description">این قطعه با استفاده از بهترین مواد اولیه پلیمری و با دقت بالا طبق استانداردهای خودروسازی تولید شده است.</p>
+
+          <div class="product-price-box-new">
+            <span class="price-label">قیمت</span>
+            <span id="product-price" class="product-price-detail-new">...</span>
+          </div>
+          
+          <div class="product-actions-wrapper">
+              <div class="product-actions-detail-new">
+                <div class="quantity-selector">
+                  <button class="quantity-btn quantity-minus" aria-label="کاهش تعداد">-</button>
+                  <input type="number" id="quantity" value="1" min="1" aria-label="تعداد محصول" />
+                  <button class="quantity-btn quantity-plus" aria-label="افزایش تعداد">+</button>
+                </div>
+                <button class="btn-add-to-cart-detail-new">
+                    <span class="btn-text">افزودن به سبد خرید</span>
+                    <span class="cart-icon-wrapper">
+                        <i class="fas fa-shopping-cart"></i>
+                    </span>
+                    <span class="cart-fly-item"></span>
+                </button>
+              </div>
+              
+              <button class="btn-wishlist-detail-new"><i class="far fa-heart"></i> افزودن به علاقه‌مندی</button>
+          </div>
+
+          <div class="product-full-description">
+              <h4>کیفیت و دقت در ساخت</h4>
+              <p>این محصول یکی از با کیفیت ترین محصولات ما میباشد. تمامی مراحل تولید، از انتخاب مواد اولیه تا بسته‌بندی نهایی، تحت نظارت دقیق واحد کنترل کیفیت و مطابق با استاندارد IATF 16949 انجام می‌شود تا اطمینان حاصل شود که قطعه‌ای بی‌نقص و با دوام به دست شما می‌رسد.</p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Related Products Section -->
+    <section id="related-products" class="container">
+        <div class="section-header">
+            <h2>محصولات مرتبط</h2>
+        </div>
+        <div class="product-grid">
+            <a href="#" class="product-card-link">
+                <div class="product-card">
+                    <div class="product-image" style="background-image: url('image/IMG_9228-removebg-preview.png')"></div>
+                    <div class="product-info">
+                        <div class="product-category">نگهدارنده</div>
+                        <div class="product-name">بست نگهدارنده رادیاتور</div>
+                        <div class="price-row"><span class="price">۴,۰۰۰ تومان</span></div>
+                    </div>
+                </div>
+            </a>
+            <!-- Add more related products here if needed -->
+        </div>
+    </section>
+
+  </main>
+
+  <!-- Footer remains the same -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col"><h4>همگام پلاستیک</h4><p>پیشرو در صنعت تولید قطعات پلیمری خودرو با تعهد به کیفیت.</p></div>
+        <div class="footer-col"><h4>لینک‌های سریع</h4><ul><li><a href="index.html#about">درباره ما</a></li><li><a href="products.html">محصولات</a></li><li><a href="index.html#faq">سوالات متداول</a></li><li><a href="index.html#contact">تماس با ما</a></li></ul></div>
+        <div class="footer-col"><h4>اطلاعات تماس</h4><p>بابل، کیلومتر ۵ جاده جدید بابل به آمل</p><p>sales@idehsazz.com</p></div>
+        <div class="footer-col"><h4>ما را دنبال کنید</h4><div class="social-icons"><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-linkedin-in"></i></a></div></div>
+      </div>
+      <div class="footer-bottom"><p>تمامی حقوق این وبسایت متعلق به شرکت همگام پلاستیک می‌باشد. © ۱۴۰۳</p></div>
+    </div>
+  </footer>
+  
+  <!-- === ADDED SCRIPT TAGS TO FIX THE ERROR === -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+  <script src="myjs.js"></script>
+</body>
+</html>
+

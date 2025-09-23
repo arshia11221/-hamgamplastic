@@ -1,0 +1,50 @@
+version: "3.9"
+services:
+<<<<<<< HEAD
+  app:
+    build: .
+    container_name: my-node-app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+    environment:
+      - NODE_ENV=production
+
+  mongodb:
+    image: mongo:6.0
+    container_name: mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+volumes:
+  mongodb_data:
+
+
+=======
+  my-node-app:
+    build: .
+    container_name: my-node-app
+    command: npx nodemon server.js
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      - mongodb
+    volumes:
+      - .:/usr/src/app
+  mongodb:
+    image: mongo:6
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
+>>>>>>> b3c0123 (add image folder and update files)
