@@ -207,7 +207,12 @@ app.post('/api/login', async (req, res, next) => {
     try {
         const { error } = loginValidationSchema.validate(req.body);
         if (error) return res.status(400).send({ message: error.details[0].message });
-        const user = await User.findOne({ username: req.body.username });
+        const user = await User.findOne({ 
+            $or: [
+                { username: req.body.username },
+                { email: req.body.username }
+            ]
+        });
         if (!user) return res.status(400).send({ message: 'نام کاربری یا رمز عبور اشتباه است' });
         const isPasswordCorrect = await bcrypt.compare(req.body.password, user.password);
         if (!isPasswordCorrect) return res.status(400).send({ message: 'نام کاربری یا رمز عبور اشتباه است' });
