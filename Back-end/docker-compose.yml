@@ -10,6 +10,7 @@ services:
       - mongodb
     env_file:
       - .env
+    restart: always   # 👈 اینو اضافه کن
 
   mongodb:
     image: mongo:6.0
