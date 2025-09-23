@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const App = {
         config: {
-            backendUrl: '',
+            backendUrl: 'http://185.213.164.74',
             shippingCost: 50000,
         },
 
@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
 
                         try {
-                            const response = await fetch(url, {
+                            const response = await fetch(App.config.backendUrl + url, {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify(body),
