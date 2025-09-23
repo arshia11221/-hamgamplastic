@@ -18,6 +18,7 @@ const Discount = require('./discountModel');
 require('dotenv').config();
 
 const app = express();
+console.log("Hello Deploy 🚀");
 
 // صفحه اصلی سایت
 app.get("/", (req, res) => {
