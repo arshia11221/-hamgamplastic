@@ -19,55 +19,6 @@ require('dotenv').config();
 
 const app = express();
 
-app.use(express.json());
-
-// ثبت‌نام کاربر جدید
-app.post("/api/register", async (req, res) => {
-  try {
-    const { username, email, password } = req.body;
-
-    // چک تکراری نبودن ایمیل
-    const existing = await User.findOne({ email });
-    if (existing) {
-      return res.status(400).json({ error: "ایمیل تکراری است" });
-    }
-
-    // رمز عبور هش شده
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const newUser = new User({ username, email, password: hashedPassword });
-    await newUser.save();
-
-    res.json({ message: "ثبت‌نام موفقیت‌آمیز بود ✅" });
-  } catch (err) {
-    res.status(500).json({ error: "مشکل در ثبت‌نام" });
-  }
-});
-
-// ورود کاربر
-app.post("/api/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-
-    const user = await User.findOne({ email });
-    if (!user) return res.status(404).json({ error: "کاربر پیدا نشد" });
-
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) return res.status(401).json({ error: "رمز اشتباه است" });
-
-    // ساخت توکن JWT
-    const token = jwt.sign({ id: user._id }, "secret123", { expiresIn: "1d" });
-
-    res.json({ message: "ورود موفقیت‌آمیز ✅", token });
-  } catch (err) {
-    res.status(500).json({ error: "مشکل در ورود" });
-  }
-});
-
-// صفحه اصلی سایت
-app.get("/", (req, res) => {
-  res.send("🌐 سایت روی VPS با موفقیت اجرا شد 🚀");
-});
 
 // تست API
 app.get("/api", (req, res) => {
@@ -99,7 +50,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-app.use(express.json()); // پارس کردن درخواست‌های JSON
+// app.use(express.json()); // پارس کردن درخواست‌های JSON
 
 // Middleware برای محدود کردن تعداد درخواست‌ها
 const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 200, standardHeaders: true, legacyHeaders: false });
@@ -193,7 +144,7 @@ const registerValidationSchema = Joi.object({
 });
 
 const loginValidationSchema = Joi.object({
-  email: Joi.string().min(6).required().email(),
+  emailOrUsername: Joi.string().min(3).required(),
   password: Joi.string().min(6).required()
 });
 
@@ -232,8 +183,12 @@ app.post("/api/login", async (req, res) => {
     const { error } = loginValidationSchema.validate(req.body);
     if (error) return res.status(400).send({ message: error.details[0].message });
 
-    const { email, password } = req.body;
-    const user = await User.findOne({ email });
+    const { emailOrUsername, password } = req.body;
+
+    // جستجو با ایمیل یا نام کاربری
+    const user = await User.findOne({
+      $or: [{ email: emailOrUsername }, { username: emailOrUsername }]
+    });
 
     if (!user) {
       return res.status(404).json({ error: "کاربر پیدا نشد" });
@@ -849,7 +804,7 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 سرور با موفقیت روی پورت ${PORT} اجرا شد.`);
   if (!isProduction) {
-    console.log('✨ حالت تست (Development Mode) فعال است. تراکنش‌های زرین‌پال شبیه‌سازی می‌شوند.');
+    console.log('✨ حالت تست (Development Mode) فعال است.');
   } else {
     console.log('🔒 حالت عملیاتی (Production Mode) فعال است. تراکنش‌ها به درگاه واقعی زرین‌پال متصل هستند.');
   }

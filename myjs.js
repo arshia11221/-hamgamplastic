@@ -119,27 +119,30 @@ document.addEventListener('DOMContentLoaded', () => {
             handleAuthForms() {
                 if (!document.body.classList.contains('login-page-body')) return;
 
-                const setupForm = (formId, endpoint, isRegister) => {
+                const setupForm = (formId, url, isRegister) => {
                     const form = document.getElementById(formId);
                     if (!form) return;
 
                     form.addEventListener('submit', async (e) => {
                         e.preventDefault();
+
                         const usernameInput = form.querySelector('input[placeholder*="نام کاربری"]');
                         const emailInput = form.querySelector('input[type="email"]');
                         const passwordInput = form.querySelector('input[type="password"]');
 
+                        // انتخاب مقدار درست برای identifier
+                        const identifier = emailInput ? emailInput.value : (usernameInput ? usernameInput.value : "");
+
                         const body = isRegister
-                            ? { username: usernameInput.value, email: emailInput.value, password: passwordInput.value }
-                            : { email: emailInput.value, password: passwordInput.value };
+                            ? { username: usernameInput.value, email: identifier, password: passwordInput.value }
+                            : { identifier, password: passwordInput.value };
 
                         try {
-                            const response = await fetch(`/api/${endpoint}`, {
+                            const response = await fetch(`${url}`, {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify(body),
                             });
-
                             const data = await response.json();
 
                             if (response.ok) {
@@ -148,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     window.location.reload();
                                 } else {
                                     localStorage.setItem('auth-token', data.token);
-                                    localStorage.setItem('username', data.username || body.email);
+                                    localStorage.setItem('username', data.username);
                                     window.location.href = 'index.html';
                                 }
                             } else {
@@ -160,8 +163,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 };
 
-                setupForm('login-form', 'login', false);
-                setupForm('register-form', 'register', true);
+                setupForm('login-form', '/api/login', false);
+                setupForm('register-form', '/api/register', true);
 
                 const showLoginBtn = document.getElementById('show-login-btn');
                 const showRegisterBtn = document.getElementById('show-register-btn');
