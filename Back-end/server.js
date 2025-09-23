@@ -17,29 +17,18 @@ const Discount = require('./discountModel');
 
 require('dotenv').config();
 
-
 const app = express();
+
 // صفحه اصلی سایت
 app.get("/", (req, res) => {
   res.send("🌐 سایت روی VPS با موفقیت اجرا شد 🚀");
 });
 
-<<<<<<< HEAD
-=======
-// صفحه اصلی سایت
-app.get("/", (req, res) => {
-  res.send("🌐 سایت روی VPS با موفقیت اجرا شد 🚀");
-});
-
->>>>>>> b3c0123 (add image folder and update files)
 // تست API
 app.get("/api", (req, res) => {
   res.json({ message: "✅ API کار میکنه" });
 });
-<<<<<<< HEAD
-=======
 
->>>>>>> b3c0123 (add image folder and update files)
 // =========================================================================
 // Middlewares (لایه‌های میانی)
 // =========================================================================
@@ -53,11 +42,11 @@ app.use(
     },
   })
 );
+
 const corsOptions = {
   origin: 'http://127.0.0.1:5500', // آدرس Live Server
-  optionsSuccessStatus: 200
+  optionsSuccessStatus: 200,
 };
-
 app.use(cors(corsOptions));
 
 app.use(express.json()); // پارس کردن درخواست‌های JSON
