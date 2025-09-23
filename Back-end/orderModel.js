@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const productInOrderSchema = new mongoose.Schema({
     id: { type: String, required: true },
@@ -15,8 +15,8 @@ const shippingInfoSchema = new mongoose.Schema({
     province: { type: String, required: true },
     city: { type: String, required: true },
     address: { type: String, required: true },
-    postalCode: { type: String, required: false },
-    notes: { type: String, required: false }
+    postalCode: { type: String },
+    notes: { type: String }
 }, { _id: false });
 
 const discountAppliedSchema = new mongoose.Schema({
@@ -33,46 +33,27 @@ const orderSchema = new mongoose.Schema({
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: "User",
         required: false
     },
-    shippingInfo: { 
-        type: shippingInfoSchema, 
-        required: true 
-    },
+    shippingInfo: { type: shippingInfoSchema, required: true },
     products: [productInOrderSchema],
-    
     subtotal: { type: Number, required: true },
     shippingCost: { type: Number, required: true },
-    discount: { type: discountAppliedSchema, required: false },
+    discount: { type: discountAppliedSchema },
     amount: { type: Number, required: true },
-    
     paymentStatus: {
         type: String,
-        required: true,
-        enum: ['در انتظار پرداخت', 'پرداخت شده', 'ناموفق', 'لغو شده'],
-        default: 'در انتظار پرداخت'
+        enum: ["در انتظار پرداخت", "پرداخت شده", "ناموفق", "لغو شده"],
+        default: "در انتظار پرداخت"
     },
-    // (NEW) Order processing status
     status: {
         type: String,
-        required: true,
-        enum: ['در حال پردازش', 'ارسال شده', 'تحویل داده شده', 'لغو شده'],
-        default: 'در حال پردازش'
+        enum: ["در حال پردازش", "ارسال شده", "تحویل داده شده", "لغو شده"],
+        default: "در حال پردازش"
     },
-    paymentAuthority: {
-        type: String,
-        required: false
-    },
-    paymentRefId: {
-        type: String,
-        required: false
-    }
-}, {
-    timestamps: true
-});
+    paymentAuthority: { type: String },
+    paymentRefId: { type: String }
+}, { timestamps: true });
 
-
-
-module.exports = mongoose.model('Order', orderSchema);
-
+module.exports = mongoose.model("Order", orderSchema);
