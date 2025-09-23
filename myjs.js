@@ -119,36 +119,27 @@ document.addEventListener('DOMContentLoaded', () => {
             handleAuthForms() {
                 if (!document.body.classList.contains('login-page-body')) return;
 
-                const setupForm = (formId, url, isRegister) => {
+                const setupForm = (formId, endpoint, isRegister) => {
                     const form = document.getElementById(formId);
                     if (!form) return;
+
                     form.addEventListener('submit', async (e) => {
                         e.preventDefault();
-
                         const usernameInput = form.querySelector('input[placeholder*="نام کاربری"]');
                         const emailInput = form.querySelector('input[type="email"]');
                         const passwordInput = form.querySelector('input[type="password"]');
 
-                        let body;
-                        if (isRegister) {
-                            body = {
-                                username: usernameInput.value,
-                                email: emailInput.value,
-                                password: passwordInput.value
-                            };
-                        } else {
-                            body = {
-                                email: emailInput.value,
-                                password: passwordInput.value
-                            };
-                        }
+                        const body = isRegister
+                            ? { username: usernameInput.value, email: emailInput.value, password: passwordInput.value }
+                            : { email: emailInput.value, password: passwordInput.value };
 
                         try {
-                            const response = await fetch(App.config.backendUrl + url, {
+                            const response = await fetch(`/api/${endpoint}`, {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify(body),
                             });
+
                             const data = await response.json();
 
                             if (response.ok) {
@@ -161,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     window.location.href = 'index.html';
                                 }
                             } else {
-                                alert(data.message || 'خطایی رخ داد.');
+                                alert(data.error || data.message || 'خطایی رخ داد.');
                             }
                         } catch (error) {
                             alert('خطای شبکه. لطفا اتصال اینترنت خود را بررسی کنید.');
@@ -169,15 +160,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 };
 
-                setupForm('login-form', '/api/login', false);
-                setupForm('register-form', '/api/register', true);
+                setupForm('login-form', 'login', false);
+                setupForm('register-form', 'register', true);
 
                 const showLoginBtn = document.getElementById('show-login-btn');
                 const showRegisterBtn = document.getElementById('show-register-btn');
                 const loginFormEl = document.getElementById('login-form');
                 const registerFormEl = document.getElementById('register-form');
 
-                if(!showLoginBtn || !showRegisterBtn || !loginFormEl || !registerFormEl) return;
+                if (!showLoginBtn || !showRegisterBtn || !loginFormEl || !registerFormEl) return;
 
                 const toggleForms = (showLogin) => {
                     loginFormEl.classList.toggle('active', showLogin);
