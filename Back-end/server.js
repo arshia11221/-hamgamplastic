@@ -202,27 +202,26 @@ app.post('/api/register', async (req, res, next) => {
     }
 });
 
-app.post('/api/login', async (req, res, next) => {
-    console.log("Received /api/login request with body:", req.body);
-    try {
-        const { error } = loginValidationSchema.validate(req.body);
-        if (error) return res.status(400).send({ message: error.details[0].message });
-        const user = await User.findOne({ 
-            $or: [
-                { username: req.body.username },
-                { email: req.body.username }
-            ]
-        });
-        if (!user) return res.status(400).send({ message: 'نام کاربری یا رمز عبور اشتباه است' });
-        const isPasswordCorrect = await bcrypt.compare(req.body.password, user.password);
-        if (!isPasswordCorrect) return res.status(400).send({ message: 'نام کاربری یا رمز عبور اشتباه است' });
-        const token = jwt.sign({ _id: user._id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '7d' });
-        console.log("User logged in successfully:", user.username);
-        res.status(200).send({ message: 'ورود موفقیت‌آمیز بود', token, username: user.username, });
-    } catch (error) {
-        console.error("Error in /api/login:", error.message);
-        next(error);
+app.post("/api/login", async (req, res) => {
+  const { username, email, password } = req.body;
+
+  try {
+    const user = await User.findOne({
+      $or: [{ username }, { email }]
+    });
+
+    if (!user) {
+      return res.status(400).json({ error: "کاربر پیدا نشد" });
     }
+
+    if (user.password !== password) {
+      return res.status(400).json({ error: "رمز اشتباه است" });
+    }
+
+    res.json({ message: "ورود موفقیت‌آمیز بود ✅" });
+  } catch (err) {
+    res.status(500).json({ error: "خطا در سرور" });
+  }
 });
 
 // --- مسیرهای محافظت‌شده برای کاربران ---
