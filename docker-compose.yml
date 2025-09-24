@@ -1,0 +1,21 @@
+services:
+  app:
+    build: ./Back-end  # <--- این خط را تغییر دهید
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+    env_file:
+      - ./Back-end/.env # <--- مسیر این فایل را هم اصلاح کنید
+    restart: always
+
+  mongodb:
+    image: mongo:6.0
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
