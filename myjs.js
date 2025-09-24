@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
             handleAuthForms() {
                 if (!document.body.classList.contains('login-page-body')) return;
 
-                const setupForm = (formId, url, isRegister) => {
+                const setupForm = (formId, endpoint, isRegister) => {
                     const form = document.getElementById(formId);
                     if (!form) return;
 
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             : { identifier, password: passwordInput.value };
 
                         try {
-                            const response = await fetch(`${url}`, {
+                            const response = await fetch(`${App.config.backendUrl}/api/${endpoint}`, {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify(body),
@@ -163,8 +163,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 };
 
-                setupForm('login-form', '/api/login', false);
-                setupForm('register-form', '/api/register', true);
+                setupForm('login-form', 'login', false);
+                setupForm('register-form', 'register', true);
 
                 const showLoginBtn = document.getElementById('show-login-btn');
                 const showRegisterBtn = document.getElementById('show-register-btn');
