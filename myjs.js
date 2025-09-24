@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             : { identifier, password: passwordInput.value };
 
                         try {
-                            const response = await fetch(`${App.config.backendUrl}/api/${endpoint}`, {
+                            const response = await fetch('http://185.213.164.74/api/' + endpoint, {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify(body),
