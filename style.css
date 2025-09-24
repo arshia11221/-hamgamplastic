@@ -23,7 +23,7 @@ html {
 
 body {
     font-family: var(--font-family);
-    background-color: var(--white-color);
+    background-color: #FFA500;
     color: var(--text-color);
     line-height: 1.7;
     direction: rtl;
@@ -80,7 +80,7 @@ h2 {
 
 .main-header {
     position: fixed;
-    top: 31px; 
+    top: 31px;
     left: 0;
     width: 100%;
     z-index: 1000;
@@ -218,7 +218,7 @@ h2 {
 #hero {
   position: relative;
   width: 100%;
-  height: 90vh; /* افزایش ارتفاع */
+  height: 88vh; /* افزایش ارتفاع */
   overflow: hidden;
 }
 

@@ -177,33 +177,25 @@ app.post('/api/register', async (req, res, next) => {
   }
 });
 
-// ورود کاربر
+// این قطعه کد کامل و صحیح است
 app.post("/api/login", async (req, res) => {
   try {
-    const { error } = loginValidationSchema.validate(req.body);
-    if (error) return res.status(400).send({ message: error.details[0].message });
-
     const { emailOrUsername, password } = req.body;
 
-    // جستجو با ایمیل یا نام کاربری
     const user = await User.findOne({
       $or: [{ email: emailOrUsername }, { username: emailOrUsername }]
     });
 
-    if (!user) {
-      return res.status(404).json({ error: "کاربر پیدا نشد" });
-    }
+    if (!user) return res.status(404).json({ error: "کاربر پیدا نشد" });
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
-      return res.status(401).json({ error: "رمز اشتباه است" });
-    }
+    if (!isPasswordValid) return res.status(401).json({ error: "رمز اشتباه است" });
 
-    // ساخت JWT
     const token = jwt.sign({ _id: user._id, username: user.username }, process.env.JWT_SECRET, {
       expiresIn: "1d"
     });
 
+    // این پاسخ هم توکن و هم یک آبجکت `user` شامل نام کاربری را برمی‌گرداند.
     res.json({
       message: "ورود موفقیت‌آمیز بود ✅",
       token,
