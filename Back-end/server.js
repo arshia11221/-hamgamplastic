@@ -10,6 +10,7 @@ const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const Joi = require('joi');
 const axios = require('axios');
+const path = require('path');
 
 // --- مدل‌های دیتابیس ---
 const User = require('./userModel');
@@ -108,31 +109,10 @@ const authMiddleware = (req, res, next) => {
 };
 
 // =========================================================================
-// --- Root Route (برای تست سریع) ---
-app.get('/', (req, res) => {
-  res.type('html').send(`
-    <!DOCTYPE html>
-    <html lang="fa" dir="rtl">
-    <head>
-      <meta charset="UTF-8">
-      <title>صفحه اصلی</title>
-      <style>
-        body { font-family: Tahoma, sans-serif; text-align: center; padding: 50px; background: #f5f5f5; }
-        h1 { color: #4CAF50; }
-        p { font-size: 18px; color: #333; }
-        .box { background: white; padding: 30px; border-radius: 10px; display: inline-block; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-      </style>
-    </head>
-    <body>
-      <div class="box">
-        <h1>🚀 سایت روی VPS بالا اومده!</h1>
-        <p>خوش آمدید حسین 🌹</p>
-        <p>تست موفقیت‌آمیز بود ✅</p>
-      </div>
-    </body>
-    </html>
-  `);
-});
+// (جدید) سرویس‌دهی فایل‌های استاتیک فرانت‌اند
+// =========================================================================
+app.use(express.static(path.join(__dirname, '..')));
+
 // =========================================================================
 // مسیرهای API
 // =========================================================================
