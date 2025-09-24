@@ -35,19 +35,20 @@ app.get('/api/health', (req, res) => {
 // =========================================================================
 // Middlewares (لایه‌های میانی)
 // =========================================================================
-/*
+
 app.use(
   helmet({
     contentSecurityPolicy: {
       directives: {
         ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-        "script-src": ["'self'", "'unsafe-inline'", "kit.fontawesome.com"],
-        "style-src": ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com"],
+        "script-src": ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com"],
+        "style-src": ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com", "https://cdn.jsdelivr.net"],
+        "font-src": ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com"],
+        "img-src": ["'self'", "data:", "https://placehold.co", "https://i.imgur.com", "https://images.pexels.com"],
       },
     },
   })
 );
-*/
 
 const corsOptions = {
   origin: '*',
