@@ -1,20 +1,16 @@
-version: "3.9"
-
 services:
   app:
     build: .
-    container_name: back-end-app
     ports:
       - "3000:3000"
     depends_on:
       - mongodb
     env_file:
       - .env
-    restart: always   # 👈 اینو اضافه کن
+    restart: always
 
   mongodb:
     image: mongo:6.0
-    container_name: mongodb
     restart: always
     ports:
       - "27017:27017"
