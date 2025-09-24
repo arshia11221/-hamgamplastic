@@ -52,7 +52,8 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-// app.use(express.json()); // پارس کردن درخواست‌های JSON
+// این خط حیاتی را اینجا اضافه کنید
+app.use(express.json());
 
 // Middleware برای محدود کردن تعداد درخواست‌ها
 const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 200, standardHeaders: true, legacyHeaders: false });

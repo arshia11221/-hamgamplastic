@@ -1,4 +1,4 @@
-# Dockerfile
+# این فایل باید در پوشه web باشد
 FROM node:20
 WORKDIR /usr/src/app
 COPY Back-end/package*.json ./

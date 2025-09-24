@@ -1,4 +1,4 @@
-# docker-compose.yml
+# این فایل باید در پوشه web باشد
 services:
   app:
     build: .
