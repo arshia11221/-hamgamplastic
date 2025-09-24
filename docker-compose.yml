@@ -1,12 +1,13 @@
+# docker-compose.yml (در پوشه اصلی web)
 services:
   app:
-    build: ./Back-end  # <--- این خط را تغییر دهید
+    build: .
     ports:
       - "3000:3000"
     depends_on:
       - mongodb
     env_file:
-      - ./Back-end/.env # <--- مسیر این فایل را هم اصلاح کنید
+      - ./Back-end/.env
     restart: always
 
   mongodb:

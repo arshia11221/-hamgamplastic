@@ -1,20 +1,18 @@
-# استفاده از Node.js نسخه LTS
+# Dockerfile (در پوشه اصلی web)
 FROM node:20
 
-# ست کردن مسیر کاری داخل کانتینر
 WORKDIR /usr/src/app
 
-# کپی کردن فایل‌های package.json
-COPY package*.json ./
+# فقط فایل‌های مربوط به نصب پکیج‌های بک‌اند را کپی کن
+COPY Back-end/package*.json ./
 
-# نصب dependency ها
+# پکیج‌ها را نصب کن
 RUN npm install --production
 
-# کپی کردن کل سورس کد
+# کل پروژه (شامل بک‌اند و فرانت‌اند) را کپی کن
 COPY . .
 
-# مشخص کردن پورتی که برنامه گوش میده
 EXPOSE 3000
 
-# اجرای برنامه
-CMD ["node", "server.js"]
+# سرور را از داخل پوشه Back-end اجرا کن
+CMD ["node", "Back-end/server.js"]
