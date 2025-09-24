@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const App = {
         config: {
-            backendUrl: 'http://185.213.164.74',
+            backendUrl: 'http://185.213.164.74:3000',
             shippingCost: 50000,
         },
 

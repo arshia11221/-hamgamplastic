@@ -1,6 +1,3 @@
-کمر
-
-
 
 // server.js - Professional Edition (750+ lines)
 // Features: Auth, Orders, Advanced Admin Dashboard, Zarinpal, Coupons, Logging, Error Handling
