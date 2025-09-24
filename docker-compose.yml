@@ -1,4 +1,4 @@
-# docker-compose.yml (در پوشه اصلی web)
+# docker-compose.yml
 services:
   app:
     build: .
@@ -9,7 +9,6 @@ services:
     env_file:
       - ./Back-end/.env
     restart: always
-
   mongodb:
     image: mongo:6.0
     restart: always
@@ -17,6 +16,5 @@ services:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
-
 volumes:
   mongo-data:
