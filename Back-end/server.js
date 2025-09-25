@@ -813,27 +813,20 @@ app.get('/admin', (req, res) => {
 
 
 // =========================================================================
-// (جدید) Middleware برای مدیریت خطای مرکزی
-// =========================================================================
-app.use((err, req, res, next) => {
-    console.error('❌ خطای سرور:', err.stack);
-    res.status(500).send({ message: 'یک خطای پیش‌بینی نشده در سرور رخ داد.' });
-});
-
-// =========================================================================
 // راه‌اندازی سرور
 // =========================================================================
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Error handler middleware
+// Error handler middleware (updated)
 app.use((err, req, res, next) => {
-  console.error(err?.stack || err);   // اگر stack نبود، خود err رو چاپ کن
-  res.status(500).json({
-    success: false,
-    message: err?.message || "Server Error",
-  });
+    console.error("❌ خطا در /api/create-order:", err);
+    res.status(500).json({
+        message: "یک خطای پیش‌بینی نشده در سرور رخ داد.",
+        error: err.message,
+        stack: err.stack
+    });
 });
 
 const PORT = process.env.PORT || 3000;
