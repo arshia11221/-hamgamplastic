@@ -63,8 +63,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Middleware برای محدود کردن تعداد درخواست‌ها (dev/prod)
-const rateLimit = require('express-rate-limit');
+
 
 // تعریف limiter مخصوص پروDUCTION
 const prodLimiter = rateLimit({
