@@ -177,7 +177,7 @@ app.post("/api/login", async (req, res) => {
       return res.status(400).json({ error: "لطفا همه فیلدها را پر کنید" });
     }
 
-    // پیدا کردن کاربر با یوزرنیم یا ایمیل (توجه کن به email1)
+    // اینجا email1 رو هم بررسی می‌کنیم
     const user = await User.findOne({
       $or: [{ username: identifier }, { email1: identifier }]
     });
