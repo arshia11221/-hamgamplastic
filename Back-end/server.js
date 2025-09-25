@@ -308,9 +308,8 @@ app.post('/api/create-order', async (req, res, next) => {
         console.log("Order created successfully. OrderId:", newOrder.orderId || newOrder._id);
         res.status(201).json({ message: 'سفارش با موفقیت ایجاد شد', order: newOrder });
     } catch (error) {
-        console.error("❌ خطا در /api/create-order:", error.message);
-        console.error("Data received:", JSON.stringify(req.body, null, 2));
-        next(error); 
+        console.error("❌ خطای ساخت سفارش:", error);
+        res.status(500).json({ message: error.message });
     }
 });
 
