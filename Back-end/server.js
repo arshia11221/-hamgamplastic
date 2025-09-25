@@ -191,13 +191,14 @@ app.post('/api/register', async (req, res, next) => {
 
 // login
 app.post('/api/login', async (req, res) => {
-    const { identifier, password } = req.body;
+    const { identifier, emailOrUsername, password } = req.body;
+    const loginId = identifier || emailOrUsername;
 
     try {
         const user = await User.findOne({
             $or: [
-                { email: identifier },
-                { username: identifier }
+                { email: loginId },
+                { username: loginId }
             ]
         });
 
