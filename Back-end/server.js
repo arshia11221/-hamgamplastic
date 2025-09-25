@@ -197,9 +197,12 @@ app.post("/api/login", async (req, res) => {
       return res.status(400).json({ error: "لطفا همه فیلدها را پر کنید" });
     }
 
-    // جستجو بر اساس نام کاربری یا ایمیل
+    // جستجو بر اساس ایمیل یا نام کاربری
     const user = await User.findOne({
-      $or: [{ username: identifier }, { email: identifier }]
+      $or: [
+        { email: identifier },
+        { username: identifier }
+      ]
     });
 
     if (!user) {
