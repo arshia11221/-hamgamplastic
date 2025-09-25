@@ -100,11 +100,10 @@ app.use((req, res, next) => {
 // سرویس‌دهی فایل‌های استاتیک (Front-end)
 // =====================================================================
 app.use(express.static(path.join(__dirname, "..")));
+app.use(express.static(path.join(__dirname, "public")));
 
-app.use((req, res, next) => {
-  if (req.originalUrl.startsWith("/api/")) {
-    return next(); // درخواست‌های API رو نذاره برن سمت index.html
-  }
+// هندلر پیش‌فرض برای فایل index.html
+app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
@@ -114,8 +113,17 @@ app.use((req, res, next) => {
 const authRoutes = require("./routes/auth");
 const orderRoutes = require("./routes/order");
 
+// مسیرهای API
 app.use("/api/auth", authRoutes);
 app.use("/api/orders", orderRoutes);
+
+// اگر مسیر API نبود → بده به React/Vue frontend
+app.use((req, res, next) => {
+  if (req.originalUrl.startsWith("/api/")) {
+    return res.status(404).json({ message: "API endpoint not found" });
+  }
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 
 // =========================================================================
 // اتصال به دیتابیس و بررسی متغیرهای محیطی
