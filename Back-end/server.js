@@ -172,26 +172,29 @@ app.post('/api/register', async (req, res, next) => {
 app.post("/api/login", async (req, res) => {
   try {
     const { identifier, password } = req.body;
+
     if (!identifier || !password) {
-      return res.status(400).json({ error: "لطفا تمام فیلدها را پر کنید" });
+      return res.status(400).json({ error: "لطفا همه فیلدها را پر کنید" });
     }
 
-    // جستجو با یوزرنیم یا ایمیل
+    // پیدا کردن کاربر با یوزرنیم یا ایمیل (توجه کن به email1)
     const user = await User.findOne({
-      $or: [{ username: identifier }, { email: identifier }]
+      $or: [{ username: identifier }, { email1: identifier }]
     });
 
     if (!user) {
       return res.status(404).json({ error: "کاربر پیدا نشد" });
     }
 
-    // بررسی پسورد
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ error: "رمز عبور اشتباه است" });
     }
 
-    res.json({ message: "ورود موفقیت‌آمیز", user });
+    res.json({
+      message: "ورود موفقیت‌آمیز",
+      user: { username: user.username, email: user.email1 }
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "خطای سرور" });
