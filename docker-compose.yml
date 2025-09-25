@@ -1,20 +1,22 @@
-# این فایل باید در پوشه web باشد
 services:
   app:
     build: .
+    container_name: hamgamplastic-app-1
+    env_file:
+      - ./Back-end/.env
     ports:
       - "3000:3000"
     depends_on:
       - mongodb
-    env_file:
-      - ./Back-end/.env
-    restart: always
+
   mongodb:
     image: mongo:6.0
+    container_name: hamgamplastic-mongodb-1
     restart: always
+    volumes:
+      - mongodb_data:/data/db
     ports:
       - "27017:27017"
-    volumes:
-      - mongo-data:/data/db
+
 volumes:
-  mongo-data:
+  mongodb_data:
