@@ -169,33 +169,32 @@ app.post('/api/register', async (req, res, next) => {
   }
 });
 
-// این قطعه کد کامل و صحیح است
 app.post("/api/login", async (req, res) => {
   try {
-    const { emailOrUsername, password } = req.body;
+    const { identifier, password } = req.body;
+    if (!identifier || !password) {
+      return res.status(400).json({ error: "لطفا تمام فیلدها را پر کنید" });
+    }
 
+    // جستجو با یوزرنیم یا ایمیل
     const user = await User.findOne({
-      $or: [{ email: emailOrUsername }, { username: emailOrUsername }]
+      $or: [{ username: identifier }, { email: identifier }]
     });
 
-    if (!user) return res.status(404).json({ error: "کاربر پیدا نشد" });
+    if (!user) {
+      return res.status(404).json({ error: "کاربر پیدا نشد" });
+    }
 
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) return res.status(401).json({ error: "رمز اشتباه است" });
+    // بررسی پسورد
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ error: "رمز عبور اشتباه است" });
+    }
 
-    const token = jwt.sign({ _id: user._id, username: user.username }, process.env.JWT_SECRET, {
-      expiresIn: "1d"
-    });
-
-    // این پاسخ هم توکن و هم یک آبجکت `user` شامل نام کاربری را برمی‌گرداند.
-    res.json({
-      message: "ورود موفقیت‌آمیز بود ✅",
-      token,
-      user: { id: user._id, username: user.username, email: user.email }
-    });
+    res.json({ message: "ورود موفقیت‌آمیز", user });
   } catch (err) {
-    console.error("Error in /api/login:", err.message);
-    res.status(500).json({ error: "خطا در سرور" });
+    console.error(err);
+    res.status(500).json({ error: "خطای سرور" });
   }
 });
 
