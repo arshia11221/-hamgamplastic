@@ -130,12 +130,24 @@ document.addEventListener('DOMContentLoaded', () => {
                         const emailInput = form.querySelector('input[type="email"]');
                         const passwordInput = form.querySelector('input[type="password"]');
 
-                        // انتخاب مقدار درست برای identifier
+                        // اگر کاربر ایمیل وارد کرده همونو می‌گیریم، وگرنه یوزرنیم
                         const identifier = emailInput ? emailInput.value : (usernameInput ? usernameInput.value : "");
 
-                        const body = isRegister
-                            ? { username: usernameInput.value, email: identifier, password: passwordInput.value }
-                            : { identifier, password: passwordInput.value };
+                        let body;
+                        if (isRegister) {
+                            // ثبت‌نام نیاز به هر سه داره
+                            body = {
+                                username: usernameInput ? usernameInput.value : "",
+                                email: emailInput ? emailInput.value : "",
+                                password: passwordInput.value
+                            };
+                        } else {
+                            // لاگین فقط identifier + password می‌خواد
+                            body = {
+                                identifier,
+                                password: passwordInput.value
+                            };
+                        }
 
                         try {
                             const response = await fetch('/api/' + endpoint, {
@@ -163,25 +175,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 };
 
+                // این قسمت مطمئن شو که برای هر دو فرم فراخوانی میشه
                 setupForm('login-form', 'login', false);
                 setupForm('register-form', 'register', true);
-
-                const showLoginBtn = document.getElementById('show-login-btn');
-                const showRegisterBtn = document.getElementById('show-register-btn');
-                const loginFormEl = document.getElementById('login-form');
-                const registerFormEl = document.getElementById('register-form');
-
-                if (!showLoginBtn || !showRegisterBtn || !loginFormEl || !registerFormEl) return;
-
-                const toggleForms = (showLogin) => {
-                    loginFormEl.classList.toggle('active', showLogin);
-                    registerFormEl.classList.toggle('active', !showLogin);
-                    showLoginBtn.classList.toggle('active', showLogin);
-                    showRegisterBtn.classList.toggle('active', !showLogin);
-                };
-
-                showLoginBtn.addEventListener('click', () => toggleForms(true));
-                showRegisterBtn.addEventListener('click', () => toggleForms(false));
             }
         },
 
