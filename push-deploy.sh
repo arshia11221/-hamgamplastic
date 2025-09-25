@@ -1,22 +1,23 @@
 #!/bin/bash
 
-# اسم پروژه روی سرور
 PROJECT_DIR="-hamgamplastic"
 
-# 1. اول تغییرات رو توی گیت اضافه کن
+# تغییرات لوکال رو پوش می‌کنیم
 git add .
 git commit -m "deploy update"
 git push origin main
 
-# 2. وارد VPS شو و پوشه پروژه رو آپدیت کن
-ssh root@185.213.164.74 << 'EOF'
-  cd ~/$PROJECT_DIR
+# روی سرور میریم
+ssh root@185.213.164.74 << EOF
+  set -e
+  cd /root/$PROJECT_DIR
+  echo ">>> Pulling latest code..."
   git pull origin main
 
-  # برای اطمینان node_modules رو نصب کن
+  echo ">>> Installing backend dependencies..."
   cd Back-end
   npm install
 
-  # سرور رو ریستارت کن (اگه pm2 استفاده می‌کنی)
-  pm2 restart all || pm2 start server.js
+  echo ">>> Restarting server with PM2..."
+  pm2 restart all || pm2 start server.js --name hamgam-api
 EOF
