@@ -29,9 +29,9 @@ app.get("/api", (req, res) => {
   res.json({ message: "✅ API کار میکنه" });
 });
 
-// Health Check Endpoint
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', message: 'Hamgam backend is running ✅' });
+// تست سلامت سرور
+app.get("/api/health", (req, res) => {
+  res.json({ status: "ok", message: "Hamgam backend is running ✅" });
 });
 
 // =========================================================================
@@ -101,9 +101,21 @@ app.use((req, res, next) => {
 // =====================================================================
 app.use(express.static(path.join(__dirname, "..")));
 
-app.use((req, res) => {
+app.use((req, res, next) => {
+  if (req.originalUrl.startsWith("/api/")) {
+    return next(); // درخواست‌های API رو نذاره برن سمت index.html
+  }
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
+
+// =====================================================================
+// Routes
+// =====================================================================
+const authRoutes = require("./routes/auth");
+const orderRoutes = require("./routes/order");
+
+app.use("/api/auth", authRoutes);
+app.use("/api/orders", orderRoutes);
 
 // =========================================================================
 // اتصال به دیتابیس و بررسی متغیرهای محیطی
