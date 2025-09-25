@@ -1,6 +1,7 @@
 
 // server.js - Professional Edition (750+ lines)
 // Features: Auth, Orders, Advanced Admin Dashboard, Zarinpal, Coupons, Logging, Error Handling
+const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
@@ -10,7 +11,7 @@ const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const Joi = require('joi');
 const axios = require('axios');
-const path = require('path');
+
 
 // --- مدل‌های دیتابیس ---
 const User = require('./userModel');
@@ -73,11 +74,15 @@ app.use((req, res, next) => {
     next();
 });
 
-// =========================================================================
-// (جدید) سرویس‌دهی فایل‌های استاتیک فرانت‌اند
-// =========================================================================
-app.use(express.static(path.join(__dirname, '..')));
+// =====================================================================
+// سرویس‌دهی فایل‌های استاتیک (Front-end)
+// =====================================================================
+app.use(express.static(path.join(__dirname, "..")));
 
+// هندل تمام مسیرها → بازگرداندن index.html
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "index.html"));
+});
 
 // =========================================================================
 // اتصال به دیتابیس و بررسی متغیرهای محیطی
