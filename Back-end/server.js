@@ -15,7 +15,7 @@ const axios = require('axios');
 
 
 // --- مدل‌های دیتابیس ---
-const User = require('./userModel');
+const User = require("../models/User");
 const Order = require('./orderModel');
 const Discount = require('./discountModel');
 
