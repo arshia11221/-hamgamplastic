@@ -1,13 +1,22 @@
 #!/bin/bash
+
+# اسم پروژه روی سرور
+PROJECT_DIR="-hamgamplastic"
+
+# 1. اول تغییرات رو توی گیت اضافه کن
 git add .
-git commit -m "auto: final deployment with correct structure"
+git commit -m "deploy update"
 git push origin main
 
+# 2. وارد VPS شو و پوشه پروژه رو آپدیت کن
 ssh root@185.213.164.74 << 'EOF'
-  cd /root/-hamgamplastic
-  git reset --hard origin/main
+  cd ~/$PROJECT_DIR
   git pull origin main
-  docker compose down --remove-orphans
-  docker compose up -d --build --force-recreate
-  echo "✅ استقرار با موفقیت کامل شد!"
+
+  # برای اطمینان node_modules رو نصب کن
+  cd Back-end
+  npm install
+
+  # سرور رو ریستارت کن (اگه pm2 استفاده می‌کنی)
+  pm2 restart all || pm2 start server.js
 EOF
