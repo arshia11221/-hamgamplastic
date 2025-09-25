@@ -97,6 +97,16 @@ app.use((req, res, next) => {
 });
 
 // =====================================================================
+// Routes
+// =====================================================================
+const authRoutes = require("./routes/auth");
+const orderRoutes = require("./routes/order");
+
+// مسیرهای API
+app.use("/api/auth", authRoutes);
+app.use("/api/orders", orderRoutes);
+
+// =====================================================================
 // سرویس‌دهی فایل‌های استاتیک (Front-end)
 // =====================================================================
 app.use(express.static(path.join(__dirname, "..")));
@@ -106,16 +116,6 @@ app.use(express.static(path.join(__dirname, "public")));
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
-
-// =====================================================================
-// Routes
-// =====================================================================
-const authRoutes = require("./routes/auth");
-const orderRoutes = require("./routes/order");
-
-// مسیرهای API
-app.use("/api/auth", authRoutes);
-app.use("/api/orders", orderRoutes);
 
 // اگر مسیر API نبود → بده به React/Vue frontend
 app.use((req, res, next) => {
