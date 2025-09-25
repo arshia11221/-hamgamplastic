@@ -109,7 +109,7 @@ app.use((req, res) => {
 // اتصال به دیتابیس و بررسی متغیرهای محیطی
 // =========================================================================
 mongoose
-  .connect(process.env.MONGODB_URI || 'mongodb://mongodb:27017/hamgam-plastic-db')
+  .connect(process.env.MONGODB_URI)
   .then(() => console.log('✅ اتصال به دیتابیس MongoDB موفق بود'))
   .catch((err) => console.error('❌ خطا در اتصال به دیتابیس:', err));
 
