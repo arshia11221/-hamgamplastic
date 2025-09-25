@@ -2,8 +2,8 @@
 // server.js - Professional Edition (750+ lines)
 // Features: Auth, Orders, Advanced Admin Dashboard, Zarinpal, Coupons, Logging, Error Handling
 const path = require('path');
-const bodyParser = require('body-parser');
 const express = require('express');
+const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -22,6 +22,8 @@ const Discount = require('./discountModel');
 require('dotenv').config();
 
 const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
 // تست API
@@ -32,6 +34,11 @@ app.get("/api", (req, res) => {
 // تست سلامت سرور
 app.get("/api/health", (req, res) => {
   res.json({ status: "ok", message: "Hamgam backend is running ✅" });
+});
+
+// Root route returns JSON instead of HTML
+app.get("/", (req, res) => {
+  res.json({ message: "Hamgam API is Running 🚀" });
 });
 
 // =========================================================================
@@ -61,7 +68,6 @@ app.use(cors(corsOptions));
 // این خط حیاتی را اینجا اضافه کنید
 app.use(express.json());
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public')));
 
 
 
@@ -112,8 +118,13 @@ app.use("/api/orders", orderRoutes);
 app.use(express.static(path.join(__dirname, "..")));
 app.use(express.static(path.join(__dirname, "public")));
 
-// اگر مسیر API نبود → بده به React/Vue frontend
-app.get("*", (req, res) => {
+// Fallback handler:
+app.use((req, res, next) => {
+  if (req.path.startsWith('/api/')) {
+    // مسیر API پیدا نشد
+    return res.status(404).json({ message: "API endpoint not found ❌" });
+  }
+  // سایر مسیرها را بده به index.html
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
