@@ -191,12 +191,13 @@ app.post('/api/register', async (req, res, next) => {
 
 // Login route
 app.post('/api/login', async (req, res) => {
-  const { identifier, password } = req.body;
+  const { emailOrUsername, identifier, password } = req.body;
+  const loginId = emailOrUsername || identifier; // پشتیبانی از هر دو کلید
 
   try {
     // پیدا کردن کاربر با ایمیل یا نام کاربری
     const user = await User.findOne({
-      $or: [{ email: identifier }, { username: identifier }]
+      $or: [{ email: loginId }, { username: loginId }]
     });
 
     if (!user) {
