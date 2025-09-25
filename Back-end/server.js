@@ -192,45 +192,52 @@ app.post('/api/register', async (req, res, next) => {
   }
 });
 
-// Login route
 app.post('/api/login', async (req, res) => {
-  const { emailOrUsername, identifier, password } = req.body;
-  const loginId = emailOrUsername || identifier; // پشتیبانی از هر دو کلید
+    try {
+        console.log("📥 Login request body:", req.body);   // لاگ گرفتن ورودی
 
-  try {
-    // پیدا کردن کاربر با ایمیل یا نام کاربری
-    const user = await User.findOne({
-      $or: [{ email: loginId }, { username: loginId }]
-    });
+        const { emailOrUsername, password } = req.body;
+        console.log("Parsed values -> emailOrUsername:", emailOrUsername, " password:", password);
 
-    if (!user) {
-      return res.status(404).json({ error: 'کاربر پیدا نشد' });
+        const user = await User.findOne({
+            $or: [
+                { email: emailOrUsername },
+                { username: emailOrUsername }
+            ]
+        });
+
+        console.log("🔍 User found in DB:", user);
+
+        if (!user) {
+            console.log("❌ User not found!");
+            return res.status(404).json({ error: "کاربر پیدا نشد" });
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        console.log("🔑 Password match result:", isMatch);
+
+        if (!isMatch) {
+            console.log("❌ Wrong password for user:", emailOrUsername);
+            return res.status(400).json({ error: "رمز عبور اشتباه است" });
+        }
+
+        const token = jwt.sign(
+            { _id: user._id, username: user.username },
+            'secretkey',
+            { expiresIn: '24h' }
+        );
+
+        console.log("✅ Login successful, token generated");
+
+        res.json({
+            message: "ورود موفقیت‌آمیز بود ✅",
+            token,
+            user: { id: user._id, username: user.username, email: user.email }
+        });
+    } catch (error) {
+        console.error("💥 Error in /api/login:", error);
+        res.status(500).json({ error: "خطای سرور" });
     }
-
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ error: 'رمز عبور اشتباه است' });
-    }
-
-    const token = jwt.sign(
-      { _id: user._id, username: user.username },
-      'secretkey',
-      { expiresIn: '24h' }
-    );
-
-    res.json({
-      message: 'ورود موفقیت‌آمیز بود ✅',
-      token,
-      user: {
-        id: user._id,
-        username: user.username,
-        email: user.email
-      }
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'خطای سرور' });
-  }
 });
 
 // --- مسیرهای محافظت‌شده برای کاربران ---
