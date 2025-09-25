@@ -133,45 +133,34 @@ document.addEventListener('DOMContentLoaded', () => {
                         // اگر کاربر ایمیل وارد کرده همونو می‌گیریم، وگرنه یوزرنیم
                         const identifier = emailInput ? emailInput.value : (usernameInput ? usernameInput.value : "");
 
-                        let body;
-                        if (isRegister) {
-                            // ثبت‌نام نیاز به هر سه داره
-                            body = {
-                                username: usernameInput ? usernameInput.value : "",
-                                email: emailInput ? emailInput.value : "",
-                                password: passwordInput.value
-                            };
-                        } else {
-                            // لاگین فقط identifier + password می‌خواد
-                            body = {
-                                emailOrUsername: identifier,
-                                password: passwordInput.value
-                            };
-                        }
+                        // Build request body according to new instructions
+                        const body = isRegister
+                            ? { username: usernameInput ? usernameInput.value : "", email: emailInput ? emailInput.value : "", password: passwordInput.value }
+                            : { emailOrUsername: identifier, password: passwordInput.value };
 
-                    try {
-                        const response = await fetch(App.config.backendUrl + '/api/' + endpoint, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(body),
-                        });
-                        const data = await response.json();
+                        try {
+                            const response = await fetch(App.config.backendUrl + '/api/' + endpoint, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(body),
+                            });
+                            const data = await response.json();
 
-                        if (response.ok) {
-                            if (isRegister) {
-                                alert('ثبت‌نام موفقیت‌آمیز بود. اکنون می‌توانید وارد شوید.');
-                                window.location.reload();
+                            if (response.ok) {
+                                if (isRegister) {
+                                    alert('ثبت‌نام موفقیت‌آمیز بود. اکنون می‌توانید وارد شوید.');
+                                    window.location.reload();
+                                } else {
+                                    localStorage.setItem('auth-token', data.token);
+                                    localStorage.setItem('username', data.user?.username || data.username);
+                                    window.location.href = 'index.html';
+                                }
                             } else {
-                                localStorage.setItem('auth-token', data.token);
-                                localStorage.setItem('username', data.user?.username || data.username);
-                                window.location.href = 'index.html';
+                                alert(data.error || data.message || 'خطایی رخ داد.');
                             }
-                        } else {
-                            alert(data.error || data.message || 'خطایی رخ داد.');
+                        } catch (error) {
+                            alert('خطای شبکه. لطفا اتصال اینترنت خود را بررسی کنید.');
                         }
-                    } catch (error) {
-                        alert('خطای شبکه. لطفا اتصال اینترنت خود را بررسی کنید.');
-                    }
                     });
                 };
 
