@@ -144,34 +144,34 @@ document.addEventListener('DOMContentLoaded', () => {
                         } else {
                             // لاگین فقط identifier + password می‌خواد
                             body = {
-                                identifier,
+                                emailOrUsername: identifier,
                                 password: passwordInput.value
                             };
                         }
 
-                        try {
-                            const response = await fetch('/api/' + endpoint, {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify(body),
-                            });
-                            const data = await response.json();
+                    try {
+                        const response = await fetch(App.config.backendUrl + '/api/' + endpoint, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(body),
+                        });
+                        const data = await response.json();
 
-                            if (response.ok) {
-                                if (isRegister) {
-                                    alert('ثبت‌نام موفقیت‌آمیز بود. اکنون می‌توانید وارد شوید.');
-                                    window.location.reload();
-                                } else {
-                                    localStorage.setItem('auth-token', data.token);
-                                    localStorage.setItem('username', data.username);
-                                    window.location.href = 'index.html';
-                                }
+                        if (response.ok) {
+                            if (isRegister) {
+                                alert('ثبت‌نام موفقیت‌آمیز بود. اکنون می‌توانید وارد شوید.');
+                                window.location.reload();
                             } else {
-                                alert(data.error || data.message || 'خطایی رخ داد.');
+                                localStorage.setItem('auth-token', data.token);
+                                localStorage.setItem('username', data.user?.username || data.username);
+                                window.location.href = 'index.html';
                             }
-                        } catch (error) {
-                            alert('خطای شبکه. لطفا اتصال اینترنت خود را بررسی کنید.');
+                        } else {
+                            alert(data.error || data.message || 'خطایی رخ داد.');
                         }
+                    } catch (error) {
+                        alert('خطای شبکه. لطفا اتصال اینترنت خود را بررسی کنید.');
+                    }
                     });
                 };
 
