@@ -189,37 +189,50 @@ app.post('/api/register', async (req, res, next) => {
   }
 });
 
-// login
-app.post('/api/login', async (req, res) => {
-    const { identifier, emailOrUsername, password } = req.body;
-    const loginId = identifier || emailOrUsername;
+// Login route
+app.post("/api/login", async (req, res) => {
+  try {
+    const { identifier, password } = req.body;
 
-    try {
-        const user = await User.findOne({
-            $or: [
-                { email: loginId },
-                { username: loginId }
-            ]
-        });
-
-        if (!user) {
-            return res.status(404).json({ error: 'کاربر پیدا نشد' });
-        }
-
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            return res.status(400).json({ error: 'رمز عبور اشتباه است' });
-        }
-
-        res.json({ 
-            message: 'ورود موفق',
-            username: user.username,
-            email: user.email
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'خطای سرور' });
+    if (!identifier || !password) {
+      return res.status(400).json({ error: "ایمیل/نام کاربری و پسورد الزامی است" });
     }
+
+    // پیدا کردن کاربر با ایمیل یا نام کاربری
+    const user = await User.findOne({
+      $or: [{ email: identifier }, { username: identifier }]
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: "کاربر پیدا نشد" });
+    }
+
+    // چک کردن پسورد
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ error: "پسورد اشتباه است" });
+    }
+
+    // ساختن توکن
+    const token = jwt.sign(
+      { _id: user._id, username: user.username },
+      process.env.JWT_SECRET || "secretkey",
+      { expiresIn: "1d" }
+    );
+
+    res.json({
+      message: "ورود موفقیت‌آمیز بود ✅",
+      token,
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email
+      }
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "خطای سرور" });
+  }
 });
 
 // --- مسیرهای محافظت‌شده برای کاربران ---
