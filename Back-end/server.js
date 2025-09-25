@@ -2,6 +2,7 @@
 // server.js - Professional Edition (750+ lines)
 // Features: Auth, Orders, Advanced Admin Dashboard, Zarinpal, Coupons, Logging, Error Handling
 const path = require('path');
+const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
@@ -59,6 +60,8 @@ app.use(cors(corsOptions));
 
 // این خط حیاتی را اینجا اضافه کنید
 app.use(express.json());
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Middleware برای محدود کردن تعداد درخواست‌ها (dev/prod)
 const rateLimit = require('express-rate-limit');
@@ -815,6 +818,9 @@ app.use((err, req, res, next) => {
 // =========================================================================
 // راه‌اندازی سرور
 // =========================================================================
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 سرور با موفقیت روی پورت ${PORT} اجرا شد.`);
