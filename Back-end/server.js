@@ -827,11 +827,13 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// لاگ گرفتن از همه روت‌ها برای دیباگ
-app._router.stack.forEach((r) => {
-  if (r.route && r.route.path) {
-    console.log(`${Object.keys(r.route.methods)} -> ${r.route.path}`);
-  }
+// Error handler middleware
+app.use((err, req, res, next) => {
+  console.error(err?.stack || err);   // اگر stack نبود، خود err رو چاپ کن
+  res.status(500).json({
+    success: false,
+    message: err?.message || "Server Error",
+  });
 });
 
 const PORT = process.env.PORT || 3000;
