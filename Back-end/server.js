@@ -189,39 +189,36 @@ app.post('/api/register', async (req, res, next) => {
   }
 });
 
-app.post("/api/login", async (req, res) => {
-  try {
+// login
+app.post('/api/login', async (req, res) => {
     const { identifier, password } = req.body;
 
-    if (!identifier || !password) {
-      return res.status(400).json({ error: "لطفا همه فیلدها را پر کنید" });
+    try {
+        const user = await User.findOne({
+            $or: [
+                { email: identifier },
+                { username: identifier }
+            ]
+        });
+
+        if (!user) {
+            return res.status(404).json({ error: 'کاربر پیدا نشد' });
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ error: 'رمز عبور اشتباه است' });
+        }
+
+        res.json({ 
+            message: 'ورود موفق',
+            username: user.username,
+            email: user.email
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'خطای سرور' });
     }
-
-    // جستجو بر اساس ایمیل یا نام کاربری
-    const user = await User.findOne({
-      $or: [
-        { email: identifier },
-        { username: identifier }
-      ]
-    });
-
-    if (!user) {
-      return res.status(404).json({ error: "کاربر پیدا نشد" });
-    }
-
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ error: "رمز عبور اشتباه است" });
-    }
-
-    res.json({
-      message: "ورود موفقیت‌آمیز",
-      user: { username: user.username, email: user.email }
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "خطای سرور" });
-  }
 });
 
 // --- مسیرهای محافظت‌شده برای کاربران ---
