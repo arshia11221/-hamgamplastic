@@ -60,9 +60,29 @@ app.use(cors(corsOptions));
 // این خط حیاتی را اینجا اضافه کنید
 app.use(express.json());
 
-// Middleware برای محدود کردن تعداد درخواست‌ها
-const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 200, standardHeaders: true, legacyHeaders: false });
-app.use(limiter);
+// Middleware برای محدود کردن تعداد درخواست‌ها (dev/prod)
+const rateLimit = require('express-rate-limit');
+
+// تعریف limiter مخصوص پروDUCTION
+const prodLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 دقیقه
+  max: 200, // نهایتاً 200 درخواست در این بازه
+  message: 'Too many requests, please try again later.'
+});
+
+// تعریف limiter مخصوص DEV
+const devLimiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 دقیقه
+  max: 1000, // سقف بالا برای تست
+  message: 'Too many requests in dev, slow down.'
+});
+
+// انتخاب بر اساس NODE_ENV
+if (process.env.NODE_ENV === 'production') {
+  app.use(prodLimiter);
+} else {
+  app.use(devLimiter);
+}
 
 // (جدید) Middleware برای لاگ‌گیری درخواست‌ها در کنسول
 app.use((req, res, next) => {
