@@ -15,7 +15,7 @@ const axios = require('axios');
 
 
 // --- مدل‌های دیتابیس ---
-const User = require("../models/User");
+const User = require('./userModel'); 
 const Order = require('./orderModel');
 const Discount = require('./discountModel');
 
@@ -115,11 +115,7 @@ app.use("/api/orders", orderRoutes);
 // =====================================================================
 // سرویس‌دهی فایل‌های استاتیک (Front-end)
 // =====================================================================
-// همه فایل‌های استاتیک رو از پوشه public سرو می‌کنه
-app.use(express.static(path.join(__dirname, 'public'), {
-  index: false,
-  extensions: ['html']
-}));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Fallback handler:
 app.use((req, res, next) => {
@@ -127,11 +123,9 @@ app.use((req, res, next) => {
     // مسیر API پیدا نشد
     return res.status(404).json({ message: "API endpoint not found ❌" });
   }
-  next();
-});
-
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  });
 });
 
 // =========================================================================
