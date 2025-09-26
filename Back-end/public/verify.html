@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>نتیجه پرداخت - همگام پلاستیک</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* استایل‌های اختصاصی برای صفحه نتیجه پرداخت */
+    .verify-page main {
+      background-color: #f9fafb;
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 0;
+    }
+    .invoice-container {
+      background-color: #fff;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.07);
+      width: 100%;
+      max-width: 800px;
+      margin: 2rem 0;
+      overflow: hidden;
+    }
+    .invoice-header {
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .invoice-header.success { background-color: #e8f5e9; border-bottom: 3px solid #66bb6a; }
+    .invoice-header.error { background-color: #fdecea; border-bottom: 3px solid #ef5350; }
+    .invoice-status {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+    .invoice-status.success { color: #388e3c; }
+    .invoice-status.error { color: #d32f2f; }
+    .invoice-body {
+      padding: 2rem;
+    }
+    .summary-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem 1.5rem;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1rem;
+    }
+    .summary-item .label { color: #666; }
+    .summary-item .value { color: #333; font-weight: 600; }
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #0052cc;
+      display: inline-block;
+    }
+    .products-list .product-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #f5f5f5;
+    }
+    .products-list .product-item:last-child { border-bottom: none; }
+    .total-calculation { margin-top: 1.5rem; }
+    .total-calculation .summary-item { margin-bottom: 0.5rem; }
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #eee;
+    }
+    .total-row .label { font-size: 1.1rem; font-weight: 700; }
+    .total-row .value { font-size: 1.4rem; font-weight: 800; color: #0052cc; }
+    .invoice-footer {
+      padding: 1.5rem 2rem;
+      text-align: center;
+      background-color: #f9fafb;
+    }
+    .back-to-home-btn {
+      display: inline-block;
+      background-color: #0052cc;
+      color: white;
+      text-decoration: none;
+      padding: 0.8rem 2.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    .back-to-home-btn:hover {
+        background-color: var(--dark-blue);
+        transform: translateY(-3px);
+    }
+    .spinner { border-top-color: #0052cc; }
+  </style>
+</head>
+<body class="verify-page">
+
+  <div class="site-header-container">
+     <div class="top-bar">
+      <div class="top-bar-content">
+        <span>اولین تولیدکننده قطعات داخلی خودرو در شمال کشور</span>
+      </div>
+    </div>
+    <header class="main-header" role="banner">
+      <nav aria-label="ناوبری اصلی">
+        <a href="index.html" class="logo"><img src="image/IMG_9482-removebg-preview.png" alt="لوگو شرکت"></a>
+      </nav>
+    </header>
+  </div>
+
+  <main>
+    <div class="container" id="verification-result">
+      <!-- محتوای فاکتور یا پیام خطا توسط myjs.js در اینجا قرار می‌گیرد -->
+      <div class="invoice-container">
+          <div class="invoice-body" style="text-align: center;">
+              <div class="spinner"></div>
+              <p style="margin-top: 1rem;">در حال بررسی و تایید اطلاعات پرداخت... لطفا منتظر بمانید.</p>
+          </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Helper to get URL params
+    function getQueryParam(param) {
+      const params = new URLSearchParams(window.location.search);
+      return params.get(param);
+    }
+
+    const API_BASE = "http://localhost:3000";
+
+    async function verifyPayment() {
+      const tid = getQueryParam('tid');
+      const status = getQueryParam('status');
+      const resultDiv = document.getElementById('verification-result');
+
+      if (!tid || !status) {
+        resultDiv.innerHTML = `
+          <div class="invoice-container">
+            <div class="invoice-header error">
+              <div class="invoice-status error"><i class="fa fa-times-circle"></i> خطا در پرداخت</div>
+            </div>
+            <div class="invoice-body" style="text-align: center;">
+              <p>اطلاعات پرداخت ناقص است. لطفا دوباره تلاش کنید.</p>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          `${API_BASE}/api/payment/test/verify?tid=${encodeURIComponent(tid)}&status=${encodeURIComponent(status)}`
+        );
+        const data = await response.json();
+
+        if (data.ok) {
+          resultDiv.innerHTML = `
+            <div class="invoice-container">
+              <div class="invoice-header success">
+                <div class="invoice-status success"><i class="fa fa-check-circle"></i> پرداخت با موفقیت تایید شد</div>
+              </div>
+              <div class="invoice-body" style="text-align: center;">
+                <p>پرداخت شما با موفقیت تایید شد. از خرید شما سپاسگزاریم.</p>
+              </div>
+            </div>
+          `;
+        } else {
+          resultDiv.innerHTML = `
+            <div class="invoice-container">
+              <div class="invoice-header error">
+                <div class="invoice-status error"><i class="fa fa-times-circle"></i> خطا در تایید پرداخت</div>
+              </div>
+              <div class="invoice-body" style="text-align: center;">
+                <p>متاسفانه پرداخت شما تایید نشد. لطفا با پشتیبانی تماس بگیرید.</p>
+              </div>
+            </div>
+          `;
+        }
+      } catch (err) {
+        resultDiv.innerHTML = `
+          <div class="invoice-container">
+            <div class="invoice-header error">
+              <div class="invoice-status error"><i class="fa fa-times-circle"></i> خطا در ارتباط</div>
+            </div>
+            <div class="invoice-body" style="text-align: center;">
+              <p>ارتباط با سرور برقرار نشد. لطفا بعدا دوباره تلاش کنید.</p>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', verifyPayment);
+  </script>
+</body>
+</html>

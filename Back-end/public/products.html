@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>محصولات - همگام پلاستیک</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="products-page">
+    <div class="top-bar">
+      <div class="top-bar-content">
+        <span>اولین تولیدکننده قطعات داخلی خودرو در شمال کشور</span>
+        <div class="top-bar-contact">
+          <span>sales@idehsazz.com</span>
+          <span>|</span>
+          <span>بابل، کیلومتر ۵ جاده جدید بابل به آمل</span>
+        </div>
+      </div>
+    </div>
+  <header class="main-header" role="banner">
+   <nav aria-label="ناوبری اصلی">
+      <div class="nav-right-group">
+        <a href="index.html" class="logo">
+          <img src="image/IMG_9482-removebg-preview.png" alt="لوگو شرکت">
+        </a>
+        <ul id="primary-menu" class="primary-menu">
+          <li><a href="index.html">صفحه اصلی</a></li>
+          <li><a href="products.html" class="active">محصولات</a></li>
+          <li><a href="#">گالری</a></li>
+          <li><a href="index.html#news">اخبار و مقالات</a></li>
+          <li><a href="index.html#about">درباره ما</a></li>
+          <li><a href="index.html#contact">تماس با ما</a></li>
+        </ul>
+      </div>
+      <div class="header-actions">
+        <a href="cart.html" class="header-icon" aria-label="سبد خرید"><i class="fas fa-shopping-cart"></i></a>
+        <a href="#" class="header-icon" aria-label="جستجو"><i class="fas fa-search"></i></a>
+        <div id="user-display"><a href="login.html" class="login-link">ورود</a></div>
+        <div class="header-phone"><i class="fas fa-phone-alt"></i><span>۰۹۱۱۳۱۴۹۴۰۴</span></div>
+        <button id="mobile-toggle" class="nav-toggle" aria-controls="primary-menu" aria-expanded="false">
+          <span class="sr-only">باز کردن منو</span><i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <section class="page-hero">
+      <div id="page-hero-particles"></div>
+      <div class="page-hero-background"></div>
+      <div class="page-hero-overlay"></div>
+      <div class="page-hero-content container">
+        <div class="hero-text">
+          <div class="breadcrumbs animate-item" data-delay="0.3">
+            <a href="index.html">صفحه اصلی</a> <i class="fas fa-chevron-left"></i> <span>محصولات</span>
+          </div>
+          <h1 class="animate-item" data-delay="0.1">گنجینه قطعات ما</h1>
+          <p class="animate-item" data-delay="0.2">هر قطعه, داستانی از کیفیت و نوآوری. محصولات ما را برای پروژه‌ی بعدی خود کشف کنید.</p>
+        </div>
+      </div> 
+    </section>
+
+    <div class="products-page-layout container">
+      <aside class="products-sidebar">
+        <div class="filter-widget">
+          <h4>جستجو</h4>
+          <input type="text" placeholder="نام محصول...">
+        </div>
+        <div class="filter-widget">
+          <h4>قیمت (تومان)</h4>
+          <input type="range" min="1000" max="500000" value="500000">
+          <div class="price-range-display">تا ۵۰۰,۰۰۰ تومان</div>
+        </div>
+        <div class="filter-widget">
+          <h4>دسته بندی ها</h4>
+          <ul class="category-list">
+            <li><a href="#">خار و بست</a></li>
+            <li><a href="#">قطعات نگهدارنده</a></li>
+            <li><a href="#">گردگیر</a></li>
+            <li><a href="#">قاب ستون</a></li>
+            <li><a href="#">کپسول</a></li>
+            <li><a href="#">درپوش</a></li>
+          </ul>
+        </div>
+      </aside>
+
+      <div class="products-main-content">
+        <div class="sort-bar">
+          <select>
+            <option>مرتب سازی بر اساس جدیدترین</option>
+            <option>مرتب سازی بر اساس ارزان‌ترین</option>
+            <option>مرتب سازی بر اساس گران‌ترین</option>
+          </select>
+        </div>
+        
+       <div class="product-grid">
+          
+          <a href="#" class="product-card-link animate-item">
+            <div class="product-card" data-category="دستگیره" data-tilt>
+              <div class="product-image" style="background-image: url('image/IMG_9228-removebg-preview.png')"></div>
+              <div class="product-info">
+                <div class="product-category">دستگیره</div>
+                <div class="product-name">دستگیره داخلی پراید پایه فلزی طوسی سیر</div>
+                <div class="price-row">
+                  <span class="price">۲۵,۰۰۰ تومان</span>
+                  <div class="product-actions">
+                    <button class="product-wishlist" title="افزودن به علاقه‌مندی"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+                    <button class="add-to-cart"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <a href="#" class="product-card-link animate-item">
+            <div class="product-card" data-category="دستگیره" data-tilt>
+              <div class="product-image" style="background-image: url('image/IMG_9228-removebg-preview.png')"></div>
+              <div class="product-info">
+                <div class="product-category">دستگیره</div>
+                <div class="product-name">دستگیره داخلی پراید پایه فلزی مشکی</div>
+                <div class="price-row">
+                  <span class="price">۲۵,۰۰۰ تومان</span>
+                  <div class="product-actions">
+                    <button class="product-wishlist" title="افزودن به علاقه‌مندی"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+                    <button class="add-to-cart"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+          
+          <a href="#" class="product-card-link animate-item">
+            <div class="product-card" data-category="دستگیره" data-tilt>
+              <div class="product-image" style="background-image: url('image/IMG_9228-removebg-preview.png')"></div>
+              <div class="product-info">
+                <div class="product-category">دستگیره</div>
+                <div class="product-name">دستگیره داخلی تیبا طوسی سیر</div>
+                <div class="price-row">
+                  <span class="price">۲۵,۰۰۰ تومان</span>
+                  <div class="product-actions">
+                    <button class="product-wishlist" title="افزودن به علاقه‌مندی"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+                    <button class="add-to-cart"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+          
+          <a href="#" class="product-card-link animate-item">
+            <div class="product-card" data-category="براکت" data-tilt>
+              <div class="product-image" style="background-image: url('image/IMG_9228-removebg-preview.png')"></div>
+              <div class="product-info">
+                <div class="product-category">براکت</div>
+                <div class="product-name">براکت نگهدارنده رادیاتور سال و کوییک</div>
+                <div class="price-row">
+                  <span class="price">۳۹,۰۰۰ تومان</span>
+                  <div class="product-actions">
+                    <button class="product-wishlist" title="افزودن به علاقه‌مندی"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+                    <button class="add-to-cart"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+          
+          <a href="#" class="product-card-link animate-item">
+            <div class="product-card" data-category="مجموعه" data-tilt>
+              <div class="product-image" style="background-image: url('image/IMG_9228-removebg-preview.png')"></div>
+              <div class="product-info">
+                <div class="product-category">مجموعه</div>
+                <div class="product-name">مجموعه هواکش موتور نیسان انژکتوری</div>
+                <div class="price-row">
+                  <span class="price">۳۹۷,۰۰۰ تومان</span>
+                  <div class="product-actions">
+                    <button class="product-wishlist" title="افزودن به علاقه‌مندی"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+                    <button class="add-to-cart"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <a href="#" class="product-card-link animate-item">
+            <div class="product-card" data-category="خار" data-tilt>
+              <div class="product-image" style="background-image: url('image/IMG_9228-removebg-preview.png')"></div>
+              <div class="product-info">
+                <div class="product-category">خار</div>
+                <div class="product-name">خار نگهدارنده شلنگ شیشه شور</div>
+                <div class="price-row">
+                  <span class="price">۲۴,۰۰۰ تومان</span>
+                  <div class="product-actions">
+                    <button class="product-wishlist" title="افزودن به علاقه‌مندی"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+                    <button class="add-to-cart"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+          
+          <a href="#" class="product-card-link animate-item">
+            <div class="product-card" data-category="لوله" data-tilt>
+              <div class="product-image" style="background-image: url('image/IMG_9228-removebg-preview.png')"></div>
+              <div class="product-info">
+                <div class="product-category">لوله</div>
+                <div class="product-name">لوله هواکش موتور ملی JAC</div>
+                <div class="price-row">
+                  <span class="price">۲۷۰,۰۰۰ تومان</span>
+                  <div class="product-actions">
+                    <button class="product-wishlist" title="افزودن به علاقه‌مندی"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+                    <button class="add-to-cart"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <a href="#" class="product-card-link animate-item">
+            <div class="product-card" data-category="شلنگ" data-tilt>
+              <div class="product-image" style="background-image: url('image/IMG_9228-removebg-preview.png')"></div>
+              <div class="product-info">
+                <div class="product-category">شلنگ</div>
+                <div class="product-name">شلنگ خرطومی هواکش پیکان</div>
+                <div class="price-row">
+                  <span class="price">۴۹۰,۰۰۰ تومان</span>
+                  <div class="product-actions">
+                    <button class="product-wishlist" title="افزودن به علاقه‌مندی"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+                    <button class="add-to-cart"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+          
+          <a href="#" class="product-card-link animate-item">
+            <div class="product-card" data-category="قاب" data-tilt>
+              <div class="product-image" style="background-image: url('image/IMG_9228-removebg-preview.png')"></div>
+              <div class="product-info">
+                <div class="product-category">قاب</div>
+                <div class="product-name">قاب مه شکن شاهین</div>
+                <div class="price-row">
+                  <span class="price">۶۹,۰۰۰ تومان</span>
+                  <div class="product-actions">
+                    <button class="product-wishlist" title="افزودن به علاقه‌مندی"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+                    <button class="add-to-cart"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+          
+          <a href="#" class="product-card-link animate-item">
+            <div class="product-card" data-category="خار" data-tilt>
+              <div class="product-image" style="background-image: url('image/IMG_9228-removebg-preview.png')"></div>
+              <div class="product-info">
+                <div class="product-category">خار</div>
+                <div class="product-name">خار رودری فوم دار شاهین</div>
+                <div class="price-row">
+                  <span class="price">۳۲,۰۰۰ تومان</span>
+                  <div class="product-actions">
+                    <button class="product-wishlist" title="افزودن به علاقه‌مندی"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+                    <button class="add-to-cart"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+          
+          <a href="#" class="product-card-link animate-item">
+            <div class="product-card" data-category="براکت" data-tilt>
+              <div class="product-image" style="background-image: url('image/IMG_9228-removebg-preview.png')"></div>
+              <div class="product-info">
+                <div class="product-category">براکت</div>
+                <div class="product-name">براکت نگهدارنده رادیاتور پراید</div>
+                <div class="price-row">
+                  <span class="price">۳۹,۰۰۰ تومان</span>
+                  <div class="product-actions">
+                    <button class="product-wishlist" title="افزودن به علاقه‌مندی"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+                    <button class="add-to-cart"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+          
+          <a href="#" class="product-card-link animate-item">
+            <div class="product-card" data-category="لوله" data-tilt>
+              <div class="product-image" style="background-image: url('image/IMG_9228-removebg-preview.png')"></div>
+              <div class="product-info">
+                <div class="product-category">لوله</div>
+                <div class="product-name">لوله خرطومی هواکش شاهین</div>
+                <div class="price-row">
+                  <span class="price">۲۹,۵۰۰ تومان</span>
+                  <div class="product-actions">
+                    <button class="product-wishlist" title="افزودن به علاقه‌مندی"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+                    <button class="add-to-cart"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+          
+        </div>
+    </div>
+  </main>
+
+  <div class="cart-notification">
+    <div class="notification-check"><i class="fas fa-check"></i></div>
+    <div class="notification-text">محصول به سبد خرید اضافه شد!</div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+  <script src="myjs.js"></script>
+</body>
+</html>
+

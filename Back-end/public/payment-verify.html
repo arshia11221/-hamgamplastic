@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>نتیجه پرداخت - همگام پلاستیک</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .verify-page main {
+      background-color: #f9fafb;
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 0;
+    }
+    .result-container {
+      background-color: #fff;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.07);
+      width: 100%;
+      max-width: 500px;
+      padding: 2.5rem;
+      text-align: center;
+    }
+    .result-container i {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+    .result-container i.success { color: #28a745; }
+    .result-container i.error { color: #dc3545; }
+    .spinner {
+        border-top-color: #0052cc !important;
+        width: 3rem;
+        height: 3rem;
+    }
+    .back-to-home-btn {
+      display: none; /* Hidden by default */
+      margin-top: 1.5rem;
+      background-color: #0052cc;
+      color: white;
+      text-decoration: none;
+      padding: 0.8rem 2.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+  </style>
+</head>
+<body class="verify-page">
+
+  <main>
+    <div id="verification-result" class="result-container">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p style="margin-top: 1rem;">در حال بررسی و تایید اطلاعات پرداخت... لطفا منتظر بمانید.</p>
+        <a href="index.html" class="back-to-home-btn">بازگشت به صفحه اصلی</a>
+    </div>
+  </main>
+
+</main>
+
+<script>
+window.addEventListener("DOMContentLoaded", async () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const authority = urlParams.get("Authority");
+  const orderId = urlParams.get("orderId");
+
+  try {
+    const res = await fetch("/api/verify-payment", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ authority, orderId })
+    });
+    const data = await res.json();
+
+    const container = document.getElementById("verification-result");
+    if (data.success) {
+      container.innerHTML = `
+        <i class="fas fa-check-circle success"></i>
+        <h2>پرداخت با موفقیت انجام شد</h2>
+        <p>کد رهگیری: ${data.refId}</p>
+        <a href="invoice.html?orderId=${orderId}" class="back-to-home-btn" style="display:inline-block">مشاهده فاکتور</a>
+      `;
+    } else {
+      container.innerHTML = `
+        <i class="fas fa-times-circle error"></i>
+        <h2>پرداخت ناموفق بود</h2>
+        <p>${data.message || "لطفا دوباره تلاش کنید."}</p>
+        <a href="products.html" class="back-to-home-btn" style="display:inline-block">بازگشت به فروشگاه</a>
+      `;
+    }
+  } catch (err) {
+    document.getElementById("verification-result").innerHTML = `
+      <i class="fas fa-times-circle error"></i>
+      <h2>خطا در اتصال به سرور</h2>
+      <p>لطفا دوباره تلاش کنید.</p>
+      <a href="products.html" class="back-to-home-btn" style="display:inline-block">بازگشت به فروشگاه</a>
+    `;
+  }
+});
+</script>
+
+  <script src="myjs.js"></script>
+</body>
+</html>
+

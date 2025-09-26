@@ -115,8 +115,7 @@ app.use("/api/orders", orderRoutes);
 // =====================================================================
 // سرویس‌دهی فایل‌های استاتیک (Front-end)
 // =====================================================================
-app.use(express.static(path.join(__dirname, "..")));
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Fallback handler:
 app.use((req, res, next) => {
@@ -124,8 +123,9 @@ app.use((req, res, next) => {
     // مسیر API پیدا نشد
     return res.status(404).json({ message: "API endpoint not found ❌" });
   }
-  // سایر مسیرها را بده به index.html
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 });
 
 // =========================================================================
