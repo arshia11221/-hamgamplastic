@@ -122,14 +122,14 @@ app.use("/api/orders", orderRoutes);
 
 app.use(express.static(path.join(__dirname, "public")));
 
-// روت اصلی → همیشه index.html برگردونه
+// روت اصلی برای index.html
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-// هندلر fallback فقط برای مسیرهای دیگه (API 404)
+// هندلر fallback برای API
 app.use((req, res, next) => {
-  if (req.path.startsWith('/api/')) {
+  if (req.path.startsWith("/api/")) {
     return res.status(404).json({ message: "API endpoint not found ❌" });
   }
   next();
