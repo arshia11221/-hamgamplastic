@@ -105,8 +105,8 @@ app.use((req, res, next) => {
 // =====================================================================
 // Routes
 // =====================================================================
-const authRoutes = require("./routes/auth");
-const orderRoutes = require("./routes/order");
+// const authRoutes = require("./routes/auth");
+// const orderRoutes = require("./routes/order");
 
 // مسیرهای API
 // app.use("/api/auth", authRoutes);
