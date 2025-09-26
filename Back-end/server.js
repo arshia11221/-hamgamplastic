@@ -109,8 +109,8 @@ const authRoutes = require("./routes/auth");
 const orderRoutes = require("./routes/order");
 
 // مسیرهای API
-app.use("/api/auth", authRoutes);
-app.use("/api/orders", orderRoutes);
+// app.use("/api/auth", authRoutes);
+// app.use("/api/orders", orderRoutes);
 
 // =====================================================================
 // سرویس‌دهی فایل‌های استاتیک (Front-end)
