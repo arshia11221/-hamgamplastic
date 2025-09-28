@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>فاکتور سفارش - همگام پلاستیک</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .invoice-page main {
+      background-color: #f9fafb;
+      padding-top: 4rem;
+      padding-bottom: 4rem;
+    }
+    .invoice-container {
+      background-color: #fff;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.07);
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      overflow: hidden;
+      transition: opacity 0.3s ease-in-out;
+    }
+    .invoice-container.loading {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+    .invoice-header {
+      background-color: #0052cc;
+      color: white;
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .invoice-header h2 { margin: 0; font-size: 1.5rem; }
+    .invoice-body { padding: 2rem; }
+    .details-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 1.5rem;
+    }
+    .detail-item .label { color: #666; font-size: 0.9rem; }
+    .detail-item .value { color: #333; font-weight: 600; }
+    .section-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #0052cc;
+      display: inline-block;
+    }
+    .invoice-table { width: 100%; border-collapse: collapse; }
+    .invoice-table th, .invoice-table td {
+      padding: 0.8rem;
+      text-align: right;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .invoice-table thead { background-color: #f9fafb; }
+    .invoice-table th { font-weight: 600; }
+    .totals-section {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #eee;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .totals-section table { width: 100%; max-width: 300px; }
+    .totals-section td { padding: 0.5rem; }
+    .total-row { font-weight: 700; font-size: 1.2rem; color: #0052cc;}
+    .invoice-footer { text-align: center; padding: 2rem; }
+    .btn-print {
+      background: #0052cc; color: white; border: none; padding: 0.8rem 2rem;
+      border-radius: 50px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;
+    }
+    .btn-print:hover { background-color: #003d99; transform: translateY(-3px); }
+    .btn-back {
+      background: #28a745; color: white; border: none; padding: 0.8rem 2rem;
+      border-radius: 50px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;
+      text-decoration: none; display: inline-block; margin-right: 1rem;
+    }
+    .btn-back:hover { background-color: #1e7e34; transform: translateY(-3px); }
+  </style>
+</head>
+<body class="invoice-page">
+
+  <main>
+    <div id="invoice-container" class="invoice-container loading">
+      <div class="invoice-header">
+        <h2>فاکتور سفارش</h2>
+        <img src="image/IMG_9482-removebg-preview.png" alt="لوگو" style="height: 40px;">
+      </div>
+      <div class="invoice-body">
+        <div class="details-grid">
+          <div class="detail-item">
+            <div class="label">شماره سفارش</div>
+            <div class="value" id="invoice-order-id">درحال بارگیری...</div>
+          </div>
+          <div class="detail-item">
+            <div class="label">تاریخ</div>
+            <div class="value" id="invoice-date">-</div>
+          </div>
+          <div class="detail-item">
+            <div class="label">وضعیت سفارش</div>
+            <div class="value" id="invoice-status">-</div>
+          </div>
+           <div class="detail-item">
+            <div class="label">وضعیت پرداخت</div>
+            <div class="value" id="invoice-payment-status">-</div>
+          </div>
+           <div class="detail-item">
+            <div class="label">کد رهگیری پرداخت</div>
+            <div class="value" id="invoice-payment-ref">-</div>
+          </div>
+        </div>
+
+        <div class="section-title">اطلاعات گیرنده</div>
+        <div class="details-grid">
+           <div class="detail-item">
+            <div class="label">نام و نام خانوادگی</div>
+            <div class="value" id="customer-name">-</div>
+          </div>
+           <div class="detail-item">
+            <div class="label">شماره تماس</div>
+            <div class="value" id="customer-phone">-</div>
+          </div>
+           <div class="detail-item" style="grid-column: 1 / -1;">
+            <div class="label">آدرس</div>
+            <div class="value" id="customer-address">-</div>
+          </div>
+        </div>
+
+        <div class="section-title">محصولات</div>
+        <table class="invoice-table">
+          <thead>
+            <tr>
+              <th>نام محصول</th>
+              <th>تعداد</th>
+              <th>قیمت واحد</th>
+              <th>مجموع</th>
+            </tr>
+          </thead>
+          <tbody id="invoice-product-list">
+            <tr><td colspan="4" style="text-align:center;">درحال بارگیری...</td></tr>
+          </tbody>
+        </table>
+
+        <div class="totals-section">
+          <table>
+            <tr>
+              <td>جمع محصولات:</td>
+              <td id="invoice-subtotal">۰ تومان</td>
+            </tr>
+            <tr>
+              <td>هزینه ارسال:</td>
+              <td id="invoice-shipping">۰ تومان</td>
+            </tr>
+            <tr class="total-row">
+              <td>مبلغ نهایی:</td>
+              <td id="invoice-total">۰ تومان</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="invoice-footer">
+        <button onclick="window.print()" class="btn-print"><i class="fas fa-print"></i> چاپ فاکتور</button>
+        <a href="products.html" class="btn-back"><i class="fas fa-store"></i> بازگشت به فروشگاه</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="myjs.js"></script>
+</body>
+</html>

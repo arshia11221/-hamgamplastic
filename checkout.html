@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>اطلاعات ارسال - همگام پلاستیک</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="checkout-page">
+
+  <div class="site-header-container">
+    <div class="top-bar">
+      <div class="top-bar-content">
+        <span>اولین تولیدکننده قطعات داخلی خودرو در شمال کشور</span>
+        <div class="top-bar-contact">
+          <span>sales@idehsazz.com</span>
+          <span>|</span>
+          <span>بابل، کیلومتر ۵ جاده جدید بابل به آمل</span>
+        </div>
+      </div>
+    </div>
+    <header class="main-header" role="banner">
+      <nav aria-label="ناوبری اصلی">
+        <div class="nav-right-group">
+          <a href="index.html" class="logo"><img src="image/IMG_9482-removebg-preview.png" alt="لوگو شرکت"></a>
+          <ul id="primary-menu" class="primary-menu">
+            <li><a href="index.html">صفحه اصلی</a></li>
+            <li><a href="products.html">محصولات</a></li>
+            <li><a href="#">گالری</a></li>
+            <li><a href="index.html#news">اخبار و مقالات</a></li>
+            <li><a href="index.html#about">درباره ما</a></li>
+            <li><a href="index.html#contact">تماس با ما</a></li>
+          </ul>
+        </div>
+        <div class="header-actions">
+          <a href="cart.html" class="header-icon active" aria-label="سبد خرید"><i class="fas fa-shopping-cart"></i></a>
+          <a href="#" class="header-icon" aria-label="جستجو"><i class="fas fa-search"></i></a>
+          <div id="user-display"><a href="login.html" class="login-link">ورود</a></div>
+          <div class="header-phone"><i class="fas fa-phone-alt"></i><span>۰۹۱۱۳۱۴۹۴۰۴</span></div>
+          <button id="mobile-toggle" class="nav-toggle" aria-controls="primary-menu" aria-expanded="false">
+            <span class="sr-only">باز کردن منو</span><i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </nav>
+    </header>
+  </div>
+
+  <main>
+    <div class="container">
+
+      <div class="cart-stepper">
+        <div class="step completed">
+          <div class="step-icon"><i class="fas fa-check"></i></div>
+          <span>بررسی سبد خرید</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step active">
+          <div class="step-icon"><i class="fas fa-truck"></i></div>
+          <span>اطلاعات ارسال</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step">
+          <div class="step-icon"><i class="fas fa-credit-card"></i></div>
+          <span>نحوه پرداخت</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step">
+          <div class="step-icon"><i class="fas fa-check-circle"></i></div>
+          <span>پایان خرید</span>
+        </div>
+      </div>
+
+      <div class="checkout-layout">
+        <div class="shipping-form">
+          <h3>اطلاعات گیرنده</h3>
+          <p class="form-description">لطفا اطلاعات زیر را با دقت تکمیل کنید.</p>
+          <form id="checkout-form">
+            <div class="form-row">
+              <div class="form-group form-group-half">
+                <label for="first-name">نام *</label>
+                <input type="text" id="first-name" name="firstName" required>
+              </div>
+              <div class="form-group form-group-half">
+                <label for="last-name">نام خانوادگی *</label>
+                <input type="text" id="last-name" name="lastName" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="phone">شماره موبایل *</label>
+              <input type="tel" id="phone" name="phone" required placeholder="مثال: 09123456789">
+            </div>
+            <div class="form-row">
+              <div class="form-group form-group-half">
+                <label for="province-text">استان *</label>
+                <input type="text" id="province-text" name="province" required>
+              </div>
+              <div class="form-group form-group-half">
+                <label for="city-text">شهر *</label>
+                <input type="text" id="city-text" name="city" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="address">آدرس دقیق *</label>
+              <textarea id="address" name="address" rows="3" placeholder="خیابان، کوچه، پلاک، واحد..."></textarea>
+            </div>
+            <div class="form-row">
+              <div class="form-group form-group-half">
+                <label for="postal-code">کد پستی</label>
+                <input type="text" id="postal-code" name="postalCode">
+              </div>
+            </div>
+             <div class="form-group">
+              <label for="notes">توضیحات سفارش (اختیاری)</label>
+              <textarea id="notes" name="notes" rows="3" placeholder="توضیحات اضافی خود را اینجا بنویسید..."></textarea>
+            </div>
+            <div class="form-actions">
+              <a href="cart.html" class="back-link"><i class="fas fa-arrow-right"></i> بازگشت به سبد خرید</a>
+              <button type="submit" class="btn-continue">ثبت و ادامه <i class="fas fa-arrow-left"></i></button>
+            </div>
+          </form>
+        </div>
+        
+        <div class="checkout-summary">
+          <h4>خلاصه سفارش</h4>
+          <div id="checkout-summary-items" class="summary-items-list">
+            <!-- Summary items will be populated by JS -->
+          </div>
+          <div class="summary-calculation">
+            <div class="summary-row">
+              <span>جمع محصولات</span>
+              <span id="checkout-subtotal">۰ تومان</span>
+            </div>
+            <div class="summary-row">
+              <span>هزینه ارسال</span>
+              <span id="checkout-shipping">۰ تومان</span>
+            </div>
+            <div class="summary-total">
+              <span>مبلغ نهایی</span>
+              <span id="checkout-total">۰ تومان</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col"><h4>همگام پلاستیک</h4><p>پیشرو در صنعت تولید قطعات پلیمری خودرو با تعهد به کیفیت.</p></div>
+        <div class="footer-col"><h4>لینک‌های سریع</h4><ul><li><a href="index.html#about">درباره ما</a></li><li><a href="products.html">محصولات</a></li><li><a href="index.html#faq">سوالات متداول</a></li><li><a href="index.html#contact">تماس با ما</a></li></ul></div>
+        <div class="footer-col"><h4>اطلاعات تماس</h4><p>بابل، کیلومتر ۵ جاده جدید بابل به آمل</p><p>sales@idehsazz.com</p></div>
+        <div class="footer-col"><h4>ما را دنبال کنید</h4><div class="social-icons"><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-linkedin-in"></i></a></div></div>
+      </div>
+      <div class="footer-bottom"><p>تمامی حقوق این وبسایت متعلق به شرکت همگام پلاستیک می‌باشد. © ۱۴۰۳</p></div>
+    </div>
+  </footer>
+
+  <script src="myjs.js"></script>
+</body>
+</html>
+

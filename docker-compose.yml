@@ -1,5 +1,6 @@
 services:
   app:
+<<<<<<< HEAD
     # Build Context را روی دایرکتوری فعلی (نقطه) تنظیم می‌کند
     build:
       context: . 
@@ -9,6 +10,13 @@ services:
       - "3001:3000"
     volumes:
       # ماپ کردن دایرکتوری فعلی Back-end به WORKDIR کانتینر
+=======
+    build: .
+    container_name: hamgamplastic-app
+    ports:
+      - "3000:3000"
+    volumes:
+>>>>>>> d2d7746b8d7f2b7e63018aff38b31dc18fe3969a
       - .:/usr/src/app
     depends_on:
       - mongodb
